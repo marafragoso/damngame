@@ -5,10 +5,11 @@
     <target name="init" description="Initializes properties">
         <property name="project.name" value="damngame" />
         <property name="src.dir" value="src" />
-        <property name="main.class" value="com.codeforall.online.damngame.GameEngine" /> <!-- path from src folder to main class, including packages -->
+        <property name="main.class" value="com.codeforall.online.damngame.Main" />
         <property name="build.dir" value="build" />
         <property name="classes.dir" value="${build.dir}/classes" />
-         <property name="lib.dir" value="lib" />
+                <property name="resources.dir" value="resources"/>
+        <property name="lib.dir" value="lib" />
         <path id="classpath">
             <fileset dir="${lib.dir}" includes="**/*.jar" />
         </path>
@@ -26,7 +27,9 @@
 
     <!-- Compiles the source code -->
     <target name="compile" description="Compiles the source code" depends="prepare">
-        <javac srcdir="${src.dir}" destdir="${classes.dir}" source="17" target="17"></javac>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" source="17" target="17">
+            <classpath refid="classpath"/>
+        </javac>
     </target>
 
     <!-- Creates a JAR file -->
@@ -34,9 +37,10 @@
         <jar destfile="${build.dir}/${project.name}.jar" basedir="${classes.dir}">
             <manifest>
                 <attribute name="Main-Class" value="${main.class}" />
-                 <attribute name="Class-Path" value="${lib.dir}" />
+                <attribute name="Class-Path" value="${lib.dir}" />
             </manifest>
-                <zipgroupfileset dir="${lib.dir}" includes="*.jar"/>
+            <zipgroupfileset dir="${lib.dir}" includes="*.jar"/>
+                        <fileset dir="${resources.dir}"/>
         </jar>
     </target>
 

@@ -1,13 +1,13 @@
 package com.codeforall.online.damngame;
 
+import com.codeforall.online.damngame.Grid;
+
 public class GameEngine {
+    private Grid grid;
 
-    public static void main(String[] args) throws InterruptedException {
-
-        // Game game = new Game(50, 25, 100);
-
-        // game.init();
-        // game.start();
-        System.err.println("Hello World");
+    public GameEngine() {
+        this.grid = new Grid(500, 500);
+        this.grid.init();
     }
+
 }
