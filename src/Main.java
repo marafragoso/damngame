@@ -8,5 +8,6 @@ public class Main {
         /* pre-game */
         GameEngine gameEngine = new GameEngine();
 
+        gameEngine.init();
     }
 }
