@@ -1,11 +1,14 @@
-package com.codeforall.online.damngame;
+package com.codeforall.online.damngame.grid;
 
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Grid {
 
-    public static final int PADDING = 10;
+    public static final int PADDING = 20;
+    public static final String RESOURCE = "resources/";
 
+    private Picture background;
     private int cellSize = 15;
     private int cols;
     private int rows;
@@ -26,6 +29,8 @@ public class Grid {
      */
     public void init() {
         Rectangle field = new Rectangle(PADDING, PADDING, cols * cellSize, rows * cellSize);
+        this.background = new Picture(PADDING, PADDING, RESOURCE + "Background.png");
+        background.draw();
         field.draw();
     }
 
