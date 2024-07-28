@@ -10,61 +10,69 @@ import java.util.List;
 
 public class GameEngine {
     private Grid grid;
-    private List<Duck> ducks =  new ArrayList<>();
-    private List<Shark> sharks =  new ArrayList<>();
+    private List<Duck> ducks = new ArrayList<>();
+    private List<Shark> sharks = new ArrayList<>();
 
     public GameEngine() {
         this.grid = new Grid(100, 50);
         this.grid.init();
     }
 
-    public void init() throws InterruptedException {
+    public void init() {
+
+    }
+
+    public void start() throws InterruptedException {
+        animalsMove();
+    }
+
+    public void animalsMove() throws InterruptedException {
+        int duckMovementCounter = 0;
+        int sharkMovementCounter = 0;
+
+        int duckDivisor = 300;
+        int sharkDivisor = 100;
+
         while(true){
 
-            sharksInit();
+            Thread.sleep(100);
 
-            ducksStart();
-            //Player appears
-        }
-    }
-
-    public void ducksStart() throws InterruptedException {
-        Thread.sleep(100);
-
-        int duckMovementCount = 0;
-
-        if(ducks.size() == 0 || duckMovementCount % 40 == 0){
-            ducks.add(AnimalFactory.getNewDuck(grid));
-        }
-
-        for(Duck duck : ducks) {
-            duck.moveRight();
-            duckMovementCount++;
-
-            if (duck.getRightBorder() > grid.columnToX(grid.getCols()) - 5) {
-                duck.remove();
+            if(ducks.isEmpty() || duckMovementCounter % duckDivisor == 0) {
+                ducks.add(AnimalFactory.getNewDuck(grid));
             }
-        }
-    }
 
-    public void sharksInit() throws InterruptedException {
-        Thread.sleep(100);
+            if(sharks.isEmpty() || sharkMovementCounter % sharkDivisor == 0) {
+                sharks.add(AnimalFactory.getNewShark(grid));
+            }
 
-        int sharkMovementCount = 0;
+            if (duckDivisor > 100) {
+                duckDivisor --;
+            }
 
-        if(sharks.size() == 0 || sharkMovementCount % 10 == 0){
-            sharks.add(AnimalFactory.getNewShark(grid));
-        }
+            if (sharkDivisor > 20) {
+                sharkDivisor -= 2;
+            }
 
-        for(Shark shark : sharks) {
-            shark.moveUp();
-            sharkMovementCount++;
+            for (Duck duck : ducks) {
+                duck.moveRight();
+                duckMovementCounter ++;
 
-            if(shark.getUpperBorder() < grid.rowToY(grid.getRows()) / 1.53){
-                shark.remove();
+                if (duck.getRightBorder() > grid.columnToX(grid.getCols()) - 5) {
+                    duck.remove();
+                }
+            }
+
+            for(Shark shark : sharks) {
+                shark.moveUp();
+                sharkMovementCounter++;
+
+                if(shark.getUpperBorder() < grid.rowToY(grid.getRows()) / 1.53){
+                    shark.remove();
+                }
             }
         }
     }
 }
+
 
 
