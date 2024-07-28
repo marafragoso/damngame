@@ -29,7 +29,7 @@ public class Grid {
      */
     public void init() {
         Rectangle field = new Rectangle(PADDING, PADDING, cols * cellSize, rows * cellSize);
-        this.background = new Picture(PADDING, PADDING, RESOURCE + "Background.png");
+        this.background = new Picture(PADDING, PADDING, "Background.png");
         background.draw();
         field.draw();
     }
