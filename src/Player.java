@@ -2,7 +2,6 @@ package com.codeforall.online.damngame;
 
 import com.codeforall.online.damngame.grid.Position;
 import com.codeforall.online.damngame.grid.Grid;
-
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Player {
@@ -20,7 +19,7 @@ public class Player {
         this.speed = 10;
         this.score = 0;
         this.lives = 3;
-        this.picture = new Picture(position.getCol(), position.getRow(), "Raft.png");
+        this.picture = new Picture(position.getCol(), position.getRow(), Grid.RESOURCE + "Raft_resize.png");
 
         this.picture.draw();
         picture.grow(0.25, 0.25);
@@ -28,8 +27,7 @@ public class Player {
     }
 
     public void moveLeft() {
-        if (this.position.getCol() - speed + 50 <= 0) {
-
+        if (this.position.getCol() - speed <= grid.columnToX(0)) {
             return;
         }
         this.position.updatePosition(-speed, 0);
@@ -38,8 +36,7 @@ public class Player {
 
     public void moveRight() {
 
-        if (this.position.getCol() + speed - 60 >= this.grid.columnToX(grid.getCols())) {
-
+        if (this.position.getCol() + speed + this.picture.getWidth() >= this.grid.columnToX(grid.getCols())) {
             return;
         }
         this.position.updatePosition(speed, 0);

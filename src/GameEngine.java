@@ -3,9 +3,9 @@ package com.codeforall.online.damngame;
 import com.codeforall.online.damngame.animals.AnimalFactory;
 import com.codeforall.online.damngame.animals.ducks.Duck;
 import com.codeforall.online.damngame.animals.sharks.Shark;
+import com.codeforall.online.damngame.controlers.KeyHandler;
 import com.codeforall.online.damngame.controlers.MyMouse;
 import com.codeforall.online.damngame.grid.Grid;
-import com.codeforall.online.damngame.Player;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,11 +16,11 @@ public class GameEngine {
     private List<Duck> ducks = new ArrayList<>();
     private List<Shark> sharks = new ArrayList<>();
     private Player player;
-    private KeyHandler keyHandler;
+    private com.codeforall.online.damngame.controlers.KeyHandler keyHandler;
     private MyMouse mouse;
 
     public GameEngine() {
-        this.grid = new Grid(70, 30);
+        this.grid = new Grid(100, 50);
         this.grid.init();
         this.player = new Player(this.grid);
         this.keyHandler = new KeyHandler(this.player);
@@ -54,9 +54,7 @@ public class GameEngine {
 
                 mouse = new MyMouse(duck);
 
-            for (Duck duck : ducks) {
                 duck.moveRight();
-                duckMovementCounter ++;
 
                 if (duck.getRightBorder() >= grid.columnToX(grid.getCols())) {
                     duck.remove();
@@ -77,7 +75,6 @@ public class GameEngine {
                 Shark shark = sharkIterator.next();
 
                 shark.moveUp();
-                sharkMovementCounter++;
 
                 if (shark.getUpperBorder() <= grid.rowToY(grid.getRows()) / 1.53) {
                     shark.remove();
