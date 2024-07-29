@@ -33,43 +33,45 @@ public class GameEngine {
         int sharkCounter = 0;
         int duckCounter = 0;
 
-        while(true){
+        while (true) {
 
             Thread.sleep(100);
 
-            if(ducks.isEmpty() || duckCounter % 10 == 0){
+            if (ducks.isEmpty() || duckCounter % 10 == 0) {
                 ducks.add(AnimalFactory.getNewDuck(grid));
+
                 duckCounter++;
             }
 
             Iterator<Duck> duckIterator = ducks.iterator();
-            while(duckIterator.hasNext()){
+            while (duckIterator.hasNext()) {
                 Duck duck = duckIterator.next();
-                
-                mouse = new MyMouse();
-                mouse.setDuck(duck);
-                mouse.init();
+
+                mouse = new MyMouse(duck);
 
                 duck.moveRight();
 
                 if (duck.getRightBorder() >= grid.columnToX(grid.getCols())) {
                     duck.remove();
+                }
+
+                if (duck.getToRemove()) {
                     duckIterator.remove();
                 }
             }
 
-            if(sharks.isEmpty() || sharkCounter % 5 == 0) {
+            if (sharks.isEmpty() || sharkCounter % 5 == 0) {
                 sharks.add(AnimalFactory.getNewShark(grid));
                 sharkCounter++;
             }
 
             Iterator<Shark> sharkIterator = sharks.iterator();
-            while(sharkIterator.hasNext()){
+            while (sharkIterator.hasNext()) {
                 Shark shark = sharkIterator.next();
 
                 shark.moveUp();
 
-                if(shark.getUpperBorder() <= grid.rowToY(grid.getRows()) / 1.53){
+                if (shark.getUpperBorder() <= grid.rowToY(grid.getRows()) / 1.53) {
                     shark.remove();
                     sharkIterator.remove();
                 }
@@ -77,6 +79,3 @@ public class GameEngine {
         }
     }
 }
-
-
-

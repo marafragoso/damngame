@@ -10,24 +10,25 @@ public class MyMouse implements MouseHandler {
     private Mouse mouse;
     private Duck duck;
 
-    public void init(){
+    public MyMouse(Duck duck) {
+        this.duck = duck;
         mouse = new Mouse(this);
         mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
     }
 
-    public void setDuck(Duck duck){
-        this.duck = duck;
-    }
-
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
+        double x = mouseEvent.getX();
 
-        if(mouseEvent.getX() >= duck.getLeftBorder() &&
-                mouseEvent.getX() <= duck.getRightBorder() &&
-                mouseEvent.getY() <= duck.getLowerBorder() &&
-                mouseEvent.getY() >= duck.getUpperBorder()) {
+        double y = mouseEvent.getY();
+
+        if (x >= duck.getLeftBorder() &&
+                x <= duck.getRightBorder() &&
+                y <= duck.getLowerBorder() + 50 &&
+                y >= duck.getUpperBorder()) {
 
             System.out.println("autch");
+            duck.remove();
         }
     }
 
