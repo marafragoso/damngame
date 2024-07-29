@@ -14,11 +14,13 @@ public class GameEngine {
     private List<Duck> ducks = new ArrayList<>();
     private List<Shark> sharks = new ArrayList<>();
     private Player player;
+    private KeyHandler keyHandler;
 
     public GameEngine() {
-        this.grid = new Grid(100, 50);
+        this.grid = new Grid(70, 30);
         this.grid.init();
         this.player = new Player(this.grid);
+        this.keyHandler = new KeyHandler(this.player);
     }
 
     public void init() {
@@ -63,7 +65,6 @@ public class GameEngine {
 
                 if (duck.getRightBorder() > grid.columnToX(grid.getCols()) - 5) {
                     ducks.remove(i);
-                    System.out.println("Hello!");
                 }
             }
 
