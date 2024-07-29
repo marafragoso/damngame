@@ -23,12 +23,12 @@ public class KeyHandler implements KeyboardHandler {
     public void createKeyboardEvents() {
 
         KeyboardEvent keyboardEventLeft = new KeyboardEvent();
-        keyboardEventLeft.setKey(KeyboardEvent.KEY_LEFT);
+        keyboardEventLeft.setKey(KeyboardEvent.KEY_A);
         keyboardEventLeft.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         keyboard.addEventListener(keyboardEventLeft);
 
         KeyboardEvent keyboardEventRight = new KeyboardEvent();
-        keyboardEventRight.setKey(KeyboardEvent.KEY_RIGHT);
+        keyboardEventRight.setKey(KeyboardEvent.KEY_D);
         keyboardEventRight.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         keyboard.addEventListener(keyboardEventRight);
 
@@ -38,10 +38,10 @@ public class KeyHandler implements KeyboardHandler {
     public void keyPressed(KeyboardEvent keyboardEvent) {
         // this is going to happen when keys F or R are pressed
         switch (keyboardEvent.getKey()) {
-            case KeyboardEvent.KEY_LEFT:
+            case KeyboardEvent.KEY_A:
                 player.moveLeft();
                 break;
-            case KeyboardEvent.KEY_RIGHT:
+            case KeyboardEvent.KEY_D:
                 player.moveRight();
                 break;
         }

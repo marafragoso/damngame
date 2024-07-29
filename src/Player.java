@@ -28,7 +28,7 @@ public class Player {
     }
 
     public void moveLeft() {
-        if (this.position.getCol() - speed <= 0) {
+        if (this.position.getCol() - speed + 50 <= 0) {
 
             return;
         }
@@ -38,7 +38,7 @@ public class Player {
 
     public void moveRight() {
 
-        if (this.position.getCol() + speed >= this.grid.columnToX(grid.getCols())) {
+        if (this.position.getCol() + speed - 60 >= this.grid.columnToX(grid.getCols())) {
 
             return;
         }
