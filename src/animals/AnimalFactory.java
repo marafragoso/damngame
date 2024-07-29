@@ -8,21 +8,21 @@ import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class AnimalFactory {
-    private static final String BIRD_IMAGE_ACCESS = "Bird/";
-    private static final String SHARK_IMAGE_ACCESS = "Shark/";
+    private static final String BIRD_IMAGE_ACCESS = "resources/Bird/";
+    private static final String SHARK_IMAGE_ACCESS = "resources/Shark/";
 
     public static Duck getNewDuck(Grid grid) {
         int initialY = getInitialPosition(grid);
 
         Picture duckPicture = new Picture(grid.columnToX(0), initialY, BIRD_IMAGE_ACCESS + "Bird1.png");
+
         return new Duck(duckPicture);
     }
 
     public static Shark getNewShark(Grid grid) {
         int randomX = (int) (Math.random() * (grid.columnToX(grid.getCols()) - 75) + Grid.PADDING);
 
-        Picture sharkPicture = new Picture(randomX, grid.rowToY(grid.getRows()) - 140,
-                SHARK_IMAGE_ACCESS + "shark1.png");
+        Picture sharkPicture = new Picture(randomX, grid.rowToY(grid.getRows()) - 140, SHARK_IMAGE_ACCESS + "shark1.png");
 
         return new Shark(sharkPicture);
     }

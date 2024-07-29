@@ -3,6 +3,7 @@ package com.codeforall.online.damngame;
 import com.codeforall.online.damngame.animals.AnimalFactory;
 import com.codeforall.online.damngame.animals.ducks.Duck;
 import com.codeforall.online.damngame.animals.sharks.Shark;
+import com.codeforall.online.damngame.controlers.KeyHandler;
 import com.codeforall.online.damngame.controlers.MyMouse;
 import com.codeforall.online.damngame.grid.Grid;
 
@@ -14,11 +15,15 @@ public class GameEngine {
     private Grid grid;
     private List<Duck> ducks = new ArrayList<>();
     private List<Shark> sharks = new ArrayList<>();
+    private Player player;
+    private com.codeforall.online.damngame.controlers.KeyHandler keyHandler;
     private MyMouse mouse;
 
     public GameEngine() {
         this.grid = new Grid(100, 50);
         this.grid.init();
+        this.player = new Player(this.grid);
+        this.keyHandler = new KeyHandler(this.player);
     }
 
     public void init() {
@@ -79,3 +84,6 @@ public class GameEngine {
         }
     }
 }
+
+
+
