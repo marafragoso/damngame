@@ -55,7 +55,7 @@ public class GameEngine {
         int sharkCounter = 0;
         int duckCounter = 0;
 
-        while (!isGameOver) {
+        while (this.player.getLives() > 0) {
 
             Thread.sleep(100);
 
@@ -94,12 +94,7 @@ public class GameEngine {
                 shark.moveUp();
 
                 if (collisionDetected(this.player.getPicture(), shark.getPicture())) {
-                    int remainingLives = this.player.getLives() - 1;
-                    this.player.setLives(remainingLives);
-
-                    if (this.player.getLives() <= 0) {
-                        this.isGameOver = true;
-                    }
+                    this.player.decrementLives();
 
                     shark.remove();
                     sharkIterator.remove();

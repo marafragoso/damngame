@@ -34,6 +34,10 @@ public class Player {
         this.lives = lives;
     }
 
+    public void decrementLives(){
+        this.lives --;
+    }
+
     public void moveLeft() {
         if (this.position.getCol() - speed <= grid.columnToX(0)) {
             return;
