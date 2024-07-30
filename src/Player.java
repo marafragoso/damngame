@@ -30,10 +30,6 @@ public class Player {
         return this.lives;
     }
 
-    public void setLives(int lives){
-        this.lives = lives;
-    }
-
     public void decrementLives(){
         this.lives --;
     }
