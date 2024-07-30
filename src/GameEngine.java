@@ -6,6 +6,7 @@ import com.codeforall.online.damngame.animals.sharks.Shark;
 import com.codeforall.online.damngame.controlers.KeyHandler;
 import com.codeforall.online.damngame.controlers.MyMouse;
 import com.codeforall.online.damngame.grid.Grid;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,12 +19,14 @@ public class GameEngine {
     private Player player;
     private com.codeforall.online.damngame.controlers.KeyHandler keyHandler;
     private MyMouse mouse;
+    private boolean isGameOver;
 
     public GameEngine() {
         this.grid = new Grid(100, 50);
         this.grid.init();
         this.player = new Player(this.grid);
         this.keyHandler = new KeyHandler(this.player);
+        this.isGameOver = false;
     }
 
     public void init() {
@@ -31,14 +34,28 @@ public class GameEngine {
     }
 
     public void start() throws InterruptedException {
+
         animalsMove();
+        gameOver();
+    }
+
+    public boolean collisionDetected(Picture p1, Picture p2) {
+
+        if (p1.getX() + p1.getWidth() >= p2.getX() && p1.getY() + p1.getHeight() >= p2.getY()
+                && p2.getX() + p2.getWidth() >= p1.getX()
+                && p2.getY() + p2.getHeight() >= p1.getY()) {
+
+            System.out.println("game over");
+            return true;
+        }
+        return false;
     }
 
     public void animalsMove() throws InterruptedException {
         int sharkCounter = 0;
         int duckCounter = 0;
 
-        while (true) {
+        while (this.player.getLives() > 0) {
 
             Thread.sleep(100);
 
@@ -76,14 +93,23 @@ public class GameEngine {
 
                 shark.moveUp();
 
-                if (shark.getUpperBorder() <= grid.rowToY(grid.getRows()) / 1.53) {
+                if (collisionDetected(this.player.getPicture(), shark.getPicture())) {
+                    this.player.decrementLives();
+
+                    shark.remove();
+                    sharkIterator.remove();
+                } else if (shark.getUpperBorder() <= grid.rowToY(grid.getRows()) / 1.53) {
                     shark.remove();
                     sharkIterator.remove();
                 }
             }
         }
     }
+
+    public void gameOver(){
+        Picture gameOver = new Picture(grid.columnToX(grid.getCols()) / 2, grid.rowToY(grid.getRows()) / 3, "resources/resources/gameover.png");
+        gameOver.draw();
+        gameOver.translate(-100,0);
+        gameOver.grow(100,100);
+    }
 }
-
-
-

@@ -26,6 +26,14 @@ public class Player {
 
     }
 
+    public int getLives(){
+        return this.lives;
+    }
+
+    public void decrementLives(){
+        this.lives --;
+    }
+
     public void moveLeft() {
         if (this.position.getCol() - speed <= grid.columnToX(0)) {
             return;
@@ -41,5 +49,9 @@ public class Player {
         }
         this.position.updatePosition(speed, 0);
         this.picture.translate(speed, 0);
+    }
+
+    public Picture getPicture() {
+        return this.picture;
     }
 }
