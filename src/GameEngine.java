@@ -96,7 +96,13 @@ public class GameEngine {
                     sharkIterator.remove();
                 }
                 if (collisionDetected(this.player.getPicture(), shark.getPicture())) {
-                    this.isGameOver = true;
+                    int remainingLives = this.player.getLives() - 1;
+                    this.player.setLives(remainingLives);
+
+                    if(this.player.getLives() <= 0){
+                        this.isGameOver = true;
+                    }
+
                     shark.remove();
                     sharkIterator.remove();
                 }

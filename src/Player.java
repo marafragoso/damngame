@@ -26,6 +26,14 @@ public class Player {
 
     }
 
+    public int getLives(){
+        return this.lives;
+    }
+
+    public void setLives(int lives){
+        this.lives = lives;
+    }
+
     public void moveLeft() {
         if (this.position.getCol() - speed <= grid.columnToX(0)) {
             return;

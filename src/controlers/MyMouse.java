@@ -27,7 +27,6 @@ public class MyMouse implements MouseHandler {
                 y <= duck.getLowerBorder() + 50 &&
                 y >= duck.getUpperBorder()) {
 
-            System.out.println("autch");
             duck.remove();
         }
     }
