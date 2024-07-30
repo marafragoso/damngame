@@ -42,4 +42,8 @@ public class Player {
         this.position.updatePosition(speed, 0);
         this.picture.translate(speed, 0);
     }
+
+    public Picture getPicture() {
+        return this.picture;
+    }
 }

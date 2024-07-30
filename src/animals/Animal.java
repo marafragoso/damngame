@@ -56,4 +56,8 @@ public abstract class Animal {
         return toRemove;
     }
 
+    public Picture getPicture() {
+        return this.picture;
+    }
+
 }
