@@ -34,7 +34,9 @@ public class GameEngine {
     }
 
     public void start() throws InterruptedException {
+
         animalsMove();
+        gameOver();
     }
 
     public boolean collisionDetected(Picture p1, Picture p2) {
@@ -91,24 +93,28 @@ public class GameEngine {
 
                 shark.moveUp();
 
-                if (shark.getUpperBorder() <= grid.rowToY(grid.getRows()) / 1.53) {
-                    shark.remove();
-                    sharkIterator.remove();
-                }
                 if (collisionDetected(this.player.getPicture(), shark.getPicture())) {
                     int remainingLives = this.player.getLives() - 1;
                     this.player.setLives(remainingLives);
 
-                    if(this.player.getLives() <= 0){
+                    if (this.player.getLives() <= 0) {
                         this.isGameOver = true;
                     }
 
                     shark.remove();
                     sharkIterator.remove();
+                } else if (shark.getUpperBorder() <= grid.rowToY(grid.getRows()) / 1.53) {
+                    shark.remove();
+                    sharkIterator.remove();
                 }
-
             }
-
         }
+    }
+
+    public void gameOver(){
+        Picture gameOver = new Picture(grid.columnToX(grid.getCols()) / 2, grid.rowToY(grid.getRows()) / 3, "resources/resources/gameover.png");
+        gameOver.draw();
+        gameOver.translate(-100,0);
+        gameOver.grow(100,100);
     }
 }
