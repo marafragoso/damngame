@@ -39,11 +39,12 @@ public class GameEngine {
 
     public boolean collisionDetected(Picture p1, Picture p2) {
 
-        if (p1.getX() + p1.getWidth() >= p2.getX() && p1.getY() + p1.getHeight() >= p2.getY()
-                && p2.getX() + p2.getWidth() >= p1.getX()
-                && p2.getY() + p2.getHeight() >= p1.getY()) {
+        if (p1.getX() + p1.getWidth() >= p2.getX() && 
+            p1.getY() + p1.getHeight() >= p2.getY() &&
+            p2.getX() + p2.getWidth() >= p1.getX() &&
+            p2.getY() + p2.getHeight() >= p1.getY()) {
 
-            System.out.println("game over");
+            System.out.println("Game over");
             return true;
         }
         return false;
