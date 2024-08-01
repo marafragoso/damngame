@@ -16,10 +16,10 @@ import java.util.List;
 
 public class GameEngine {
     private Grid grid;
+    private Player player;
     private List<Duck> ducks = new ArrayList<>();
     private List<Shark> sharks = new ArrayList<>();
-    private Player player;
-    private com.codeforall.online.damngame.controlers.KeyHandler keyHandler;
+    private KeyHandler keyHandler;
     private DuckCatcher duckCatcher;
     private MousePointer menuPointer;
     private boolean canGameStart;
@@ -27,12 +27,12 @@ public class GameEngine {
 
     public GameEngine() {
         this.grid = new Grid(100, 50);
+
         this.canGameStart = false;
         this.isGameOver = false;
     }
 
     public void init() throws InterruptedException {
-
         Menu menu =  new Menu(this.grid);
         menuPointer = new MousePointer(menu);
 
@@ -41,6 +41,8 @@ public class GameEngine {
                 this.canGameStart = true;
                 menu = null;
                 start();
+            }else if(menu.getQuitGame()){
+                System.exit(0);
             }
         }
     }
@@ -50,63 +52,22 @@ public class GameEngine {
         this.player = new Player(this.grid);
         this.keyHandler = new KeyHandler(this.player);
 
-        animalsMove();
-        gameOver();
-    }
+        this.ducks.add(AnimalFactory.getNewDuck(grid));
+        this.sharks.add(AnimalFactory.getNewShark(grid));
 
-    public void animalsMove() throws InterruptedException {
-        int sharkCounter = 0;
-        int duckCounter = 0;
+        int duckMovementCounter = 0;
+        int sharkMovementCounter = 0;
 
-        while (this.player.getLives() > 0) {
+        while(this.player.getLives() > 0) {
 
             Thread.sleep(100);
 
-            if (ducks.isEmpty() || duckCounter % 10 == 0) {
-                ducks.add(AnimalFactory.getNewDuck(grid));
+            duckMovementCounter = ducksMove(duckMovementCounter);
 
-                duckCounter++;
-            }
-
-            Iterator<Duck> duckIterator = ducks.iterator();
-            while (duckIterator.hasNext()) {
-                Duck duck = duckIterator.next();
-
-                duckCatcher = new DuckCatcher(duck);
-
-                duck.moveRight();
-
-                if (duck.getRightBorder() >= grid.columnToX(grid.getCols())) {
-                    duck.remove();
-                }
-
-                if (duck.getToRemove()) {
-                    duckIterator.remove();
-                }
-            }
-
-            if (sharks.isEmpty() || sharkCounter % 5 == 0) {
-                sharks.add(AnimalFactory.getNewShark(grid));
-                sharkCounter++;
-            }
-
-            Iterator<Shark> sharkIterator = sharks.iterator();
-            while (sharkIterator.hasNext()) {
-                Shark shark = sharkIterator.next();
-
-                shark.moveUp();
-
-                if (collisionDetected(this.player.getPicture(), shark.getPicture())) {
-                    this.player.decrementLives();
-
-                    shark.remove();
-                    sharkIterator.remove();
-                } else if (shark.getUpperBorder() <= grid.rowToY(grid.getRows()) / 1.53) {
-                    shark.remove();
-                    sharkIterator.remove();
-                }
-            }
+            sharkMovementCounter = sharksMove(sharkMovementCounter);
         }
+
+        gameOver();
     }
 
     public void gameOver(){
@@ -125,5 +86,58 @@ public class GameEngine {
             return true;
         }
         return false;
+    }
+
+    public int ducksMove(int duckMovementCounter) {
+        if (ducks.isEmpty() || duckMovementCounter % 50 == 0) {
+            ducks.add(AnimalFactory.getNewDuck(grid));
+        }
+
+        Iterator<Duck> duckIterator = ducks.iterator();
+        while (duckIterator.hasNext()) {
+            Duck duck = duckIterator.next();
+
+            duckCatcher = new DuckCatcher(duck);
+
+            duck.moveRight();
+            duckMovementCounter ++;
+
+            if (duck.getRightBorder() >= grid.columnToX(grid.getCols())) {
+                duck.remove();
+            }
+
+            if (duck.getToRemove()) {
+                duckIterator.remove();
+            }
+        }
+
+        return duckMovementCounter;
+    }
+
+    public int sharksMove(int sharkMovementCounter) {
+        if (sharks.isEmpty() || sharkMovementCounter % 20 == 0) {
+            sharks.add(AnimalFactory.getNewShark(grid));
+        }
+
+        Iterator<Shark> sharkIterator = sharks.iterator();
+        while (sharkIterator.hasNext()) {
+            Shark shark = sharkIterator.next();
+
+            shark.moveUp();
+            sharkMovementCounter++;
+
+            if (collisionDetected(this.player.getPicture(), shark.getPicture())) {
+                this.player.decrementLives();
+
+                shark.remove();
+                sharkIterator.remove();
+
+            } else if (shark.getUpperBorder() <= grid.rowToY(grid.getRows()) / 1.53) {
+                shark.remove();
+                sharkIterator.remove();
+            }
+        }
+
+        return sharkMovementCounter;
     }
 }
