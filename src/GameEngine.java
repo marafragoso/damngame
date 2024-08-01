@@ -24,15 +24,13 @@ public class GameEngine {
     private DuckCatcher duckCatcher;
     private MousePointer menuPointer;
     private boolean canGameStart;
-    private boolean isGameOver;
     private Text replayText;
+private Picture gameOverPic;
 
     public GameEngine() {
         this.grid = new Grid(100, 50);
-        this.grid.init();
         this.canGameStart = false;
-        this.isGameOver = false;
-        this.replayText = new Text(grid.columnToX(grid.getCols()) / 2, grid.rowToY(grid.getRows()) / 2+100, "Press \"R\" if you want to play again");
+
     }
 
 
@@ -45,6 +43,7 @@ public class GameEngine {
             if(menu.getGameStart()){
                 this.canGameStart = true;
                 menu = null;
+                this.grid.init();
                 start();
             }else if(menu.getQuitGame()){
                 System.exit(0);
@@ -76,15 +75,30 @@ public class GameEngine {
     }
 
     public void gameOver(){
-        Picture gameOver = new Picture(grid.columnToX(grid.getCols()) / 2, grid.rowToY(grid.getRows()) / 3, "resources/gameover.png");
-        gameOver.draw();
-        gameOver.translate(-100,0);
-        gameOver.grow(100,100);
+
+        this.gameOverPic = new Picture(grid.columnToX(grid.getCols()) / 2, grid.rowToY(grid.getRows()) / 3, "resources/gameover.png");
+        this.replayText = new Text(grid.columnToX(grid.getCols()) / 2, grid.rowToY(grid.getRows()) / 2+100, "Press \"R\" if you want to play again");
+        gameOverPic.draw();
+        gameOverPic.translate(-100,0);
+        gameOverPic.grow(100,100);
         replayText.draw();
         player.deletePicture();
+
+        for (int i = 0; i < ducks.size(); i++) {
+            ducks.get(i).remove();
+        }
+        for (int i = 0; i < sharks.size(); i++) {
+            sharks.get(i).remove();
+        }
+        ducks.clear();
+        sharks.clear();
     }
 
     public void restartGame() throws InterruptedException {
+      replayText.delete();
+      replayText = null;
+        gameOverPic.delete();
+        gameOverPic = null;
         this.start();
 
 
