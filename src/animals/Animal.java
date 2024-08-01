@@ -2,17 +2,13 @@ package com.codeforall.online.damngame.animals;
 
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
-public abstract class Animal {
-
+public abstract class Animal implements Animation {
     private Picture picture;
-    private boolean toRemove;
+    private boolean toRemove = false;
 
     public Animal(Picture picture) {
         this.picture = picture;
-
         picture.draw();
-        this.toRemove = false;
-
     }
 
     public int getUpperBorder() {
@@ -31,18 +27,22 @@ public abstract class Animal {
         return this.picture.getX();
     }
 
+    @Override
     public void moveRight() {
         this.picture.translate(20, 0);
     }
 
+    @Override
     public void moveLeft() {
         this.picture.translate(-20, 0);
     }
 
+    @Override
     public void moveUp() {
         this.picture.translate(0, -10);
     }
 
+    @Override
     public void moveDown() {
         this.picture.translate(0, 10);
     }
