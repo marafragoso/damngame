@@ -9,6 +9,6 @@ public class Main {
         GameEngine gameEngine = new GameEngine();
 
         gameEngine.init();
-        gameEngine.start();
+        //gameEngine.start();
     }
 }
