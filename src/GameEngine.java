@@ -4,8 +4,10 @@ import com.codeforall.online.damngame.animals.AnimalFactory;
 import com.codeforall.online.damngame.animals.ducks.Duck;
 import com.codeforall.online.damngame.animals.sharks.Shark;
 import com.codeforall.online.damngame.controlers.KeyHandler;
-import com.codeforall.online.damngame.controlers.MyMouse;
+import com.codeforall.online.damngame.controlers.DuckCatcher;
 import com.codeforall.online.damngame.grid.Grid;
+import com.codeforall.online.damngame.menu.Menu;
+import com.codeforall.online.damngame.menu.mouse.MousePointer;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 import java.util.ArrayList;
@@ -18,37 +20,38 @@ public class GameEngine {
     private List<Shark> sharks = new ArrayList<>();
     private Player player;
     private com.codeforall.online.damngame.controlers.KeyHandler keyHandler;
-    private MyMouse mouse;
+    private DuckCatcher duckCatcher;
+    private MousePointer menuPointer;
+    private boolean canGameStart;
     private boolean isGameOver;
 
     public GameEngine() {
         this.grid = new Grid(100, 50);
-        this.grid.init();
-        this.player = new Player(this.grid);
-        this.keyHandler = new KeyHandler(this.player);
+        this.canGameStart = false;
         this.isGameOver = false;
     }
 
-    public void init() {
+    public void init() throws InterruptedException {
 
+        Menu menu =  new Menu(this.grid);
+        menuPointer = new MousePointer(menu);
+
+        while(!canGameStart){
+            if(menu.getGameStart()){
+                this.canGameStart = true;
+                menu = null;
+                start();
+            }
+        }
     }
 
     public void start() throws InterruptedException {
+        this.grid.init();
+        this.player = new Player(this.grid);
+        this.keyHandler = new KeyHandler(this.player);
 
         animalsMove();
         gameOver();
-    }
-
-    public boolean collisionDetected(Picture p1, Picture p2) {
-
-        if (p1.getX() + p1.getWidth() >= p2.getX() && p1.getY() + p1.getHeight() >= p2.getY()
-                && p2.getX() + p2.getWidth() >= p1.getX()
-                && p2.getY() + p2.getHeight() >= p1.getY()) {
-
-            System.out.println("game over");
-            return true;
-        }
-        return false;
     }
 
     public void animalsMove() throws InterruptedException {
@@ -69,7 +72,7 @@ public class GameEngine {
             while (duckIterator.hasNext()) {
                 Duck duck = duckIterator.next();
 
-                mouse = new MyMouse(duck);
+                duckCatcher = new DuckCatcher(duck);
 
                 duck.moveRight();
 
@@ -111,5 +114,16 @@ public class GameEngine {
         gameOver.draw();
         gameOver.translate(-100,0);
         gameOver.grow(100,100);
+    }
+
+    public boolean collisionDetected(Picture p1, Picture p2) {
+
+        if (p1.getX() + p1.getWidth() >= p2.getX() && p1.getY() + p1.getHeight() >= p2.getY()
+                && p2.getX() + p2.getWidth() >= p1.getX()
+                && p2.getY() + p2.getHeight() >= p1.getY()) {
+
+            return true;
+        }
+        return false;
     }
 }
