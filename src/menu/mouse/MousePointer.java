@@ -22,13 +22,21 @@ public class MousePointer implements MouseHandler {
         double x = mouseEvent.getX();
         double y = mouseEvent.getY();
 
-        if(x >= menu.getStartButtonX() &&
-        x <= menu.getStartButtonWidth() &&
-        y <= menu.getStartButtonHeight() &&
-        y >= menu.getStartButtonY()) {
+        if(x >= menu.getStartButton().getX() &&
+                x <= menu.getStartButton().getWidth() &&
+                y <= menu.getStartButton().getHeight() &&
+                y >= menu.getStartButton().getY()) {
 
-            System.out.println("START");
             this.menu.setGameStart();
+        }
+
+        if(x >= menu.getQuitButton().getX() &&
+                x <= menu.getQuitButton().getWidth() &&
+                y <= menu.getQuitButton().getHeight() &&
+                y >= menu.getQuitButton().getY()) {
+
+            System.out.println("Quit");
+            this.menu.setQuitGame(true);
         }
     }
 
