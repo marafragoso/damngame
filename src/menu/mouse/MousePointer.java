@@ -35,8 +35,7 @@ public class MousePointer implements MouseHandler {
                 y <= menu.getQuitButton().getHeight() &&
                 y >= menu.getQuitButton().getY()) {
 
-            System.out.println("Quit");
-            this.menu.setQuitGame(true);
+            this.menu.setQuitGame();
         }
     }
 

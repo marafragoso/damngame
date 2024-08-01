@@ -1,7 +1,6 @@
-package com.codeforall.online.damngame.menu.Buttons;
+package com.codeforall.online.damngame.menu.buttons;
 
 import com.codeforall.online.damngame.grid.Grid;
-import com.codeforall.online.damngame.menu.Menu;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class QuitButton extends Button{

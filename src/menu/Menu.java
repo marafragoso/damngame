@@ -2,8 +2,8 @@ package com.codeforall.online.damngame.menu;
 
 import com.codeforall.online.damngame.controlers.DuckCatcher;
 import com.codeforall.online.damngame.grid.Grid;
-import com.codeforall.online.damngame.menu.Buttons.QuitButton;
-import com.codeforall.online.damngame.menu.Buttons.StartButton;
+import com.codeforall.online.damngame.menu.buttons.QuitButton;
+import com.codeforall.online.damngame.menu.buttons.StartButton;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Menu {
@@ -68,8 +68,8 @@ public class Menu {
         return this.quitGame;
     }
 
-    public void setQuitGame(boolean quitGame){
-        this.quitGame = quitGame;
+    public void setQuitGame(){
+        this.quitGame = true;
     }
 
 }

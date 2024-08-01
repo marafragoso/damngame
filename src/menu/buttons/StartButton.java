@@ -1,4 +1,4 @@
-package com.codeforall.online.damngame.menu.Buttons;
+package com.codeforall.online.damngame.menu.buttons;
 
 import com.codeforall.online.damngame.grid.Grid;
 import org.academiadecodigo.simplegraphics.pictures.Picture;

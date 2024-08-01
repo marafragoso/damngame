@@ -27,8 +27,6 @@ public class GameEngine {
 
     public GameEngine() {
         this.grid = new Grid(100, 50);
-        this.ducks.add(AnimalFactory.getNewDuck(grid));
-        this.sharks.add(AnimalFactory.getNewShark(grid));
 
         this.canGameStart = false;
         this.isGameOver = false;
@@ -53,6 +51,9 @@ public class GameEngine {
         this.grid.init();
         this.player = new Player(this.grid);
         this.keyHandler = new KeyHandler(this.player);
+
+        this.ducks.add(AnimalFactory.getNewDuck(grid));
+        this.sharks.add(AnimalFactory.getNewShark(grid));
 
         int duckMovementCounter = 0;
         int sharkMovementCounter = 0;
