@@ -9,6 +9,7 @@ import com.codeforall.online.damngame.grid.Grid;
 import com.codeforall.online.damngame.menu.Menu;
 import com.codeforall.online.damngame.menu.mouse.MousePointer;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
+import org.academiadecodigo.simplegraphics.graphics.Text;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,13 +25,17 @@ public class GameEngine {
     private MousePointer menuPointer;
     private boolean canGameStart;
     private boolean isGameOver;
+    private Text replayText;
 
     public GameEngine() {
         this.grid = new Grid(100, 50);
-
+        this.grid.init();
         this.canGameStart = false;
         this.isGameOver = false;
+        this.replayText = new Text(grid.columnToX(grid.getCols()) / 2, grid.rowToY(grid.getRows()) / 2+100, "Press \"R\" if you want to play again");
     }
+
+
 
     public void init() throws InterruptedException {
         Menu menu =  new Menu(this.grid);
@@ -48,9 +53,9 @@ public class GameEngine {
     }
 
     public void start() throws InterruptedException {
-        this.grid.init();
+
         this.player = new Player(this.grid);
-        this.keyHandler = new KeyHandler(this.player);
+        this.keyHandler = new KeyHandler(this.player, this);
 
         this.ducks.add(AnimalFactory.getNewDuck(grid));
         this.sharks.add(AnimalFactory.getNewShark(grid));
@@ -75,6 +80,15 @@ public class GameEngine {
         gameOver.draw();
         gameOver.translate(-100,0);
         gameOver.grow(100,100);
+        replayText.draw();
+        player.deletePicture();
+    }
+
+    public void restartGame() throws InterruptedException {
+        this.start();
+
+
+
     }
 
     public boolean collisionDetected(Picture p1, Picture p2) {

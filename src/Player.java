@@ -54,4 +54,8 @@ public class Player {
     public Picture getPicture() {
         return this.picture;
     }
+
+    public void deletePicture() {
+        this.picture.delete();
+    }
 }
