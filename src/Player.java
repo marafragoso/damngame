@@ -31,7 +31,7 @@ public class Player {
     }
 
     public void decrementLives(){
-        this.lives = this.lives-3;
+        this.lives--;
     }
 
     public void moveLeft() {

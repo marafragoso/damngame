@@ -7,6 +7,7 @@ import com.codeforall.online.damngame.controlers.KeyHandler;
 import com.codeforall.online.damngame.controlers.DuckCatcher;
 import com.codeforall.online.damngame.grid.Grid;
 import com.codeforall.online.damngame.menu.Menu;
+import com.codeforall.online.damngame.GameOver;
 import com.codeforall.online.damngame.menu.mouse.MousePointer;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 import org.academiadecodigo.simplegraphics.graphics.Text;
@@ -25,34 +26,35 @@ public class GameEngine {
     private MousePointer menuPointer;
     private boolean canGameStart;
     private Text replayText;
-private Picture gameOverPic;
+    private Picture gameOverPic;
+    private GameOver gameOver;
 
     public GameEngine() {
         this.grid = new Grid(100, 50);
         this.canGameStart = false;
+        this.gameOver = new GameOver(grid);
 
     }
 
 
-
     public void init() throws InterruptedException {
-        Menu menu =  new Menu(this.grid);
+        Menu menu = new Menu(this.grid);
         menuPointer = new MousePointer(menu);
 
-        while(!canGameStart){
-            if(menu.getGameStart()){
+        while (!canGameStart) {
+            if (menu.getGameStart()) {
                 this.canGameStart = true;
                 menu = null;
                 this.grid.init();
                 start();
-            }else if(menu.getQuitGame()){
+            } else if (menu.getQuitGame()) {
                 System.exit(0);
             }
         }
     }
 
     public void start() throws InterruptedException {
-
+        this.gameOver.removeGameOver();
         this.player = new Player(this.grid);
         this.keyHandler = new KeyHandler(this.player, this);
 
@@ -62,7 +64,7 @@ private Picture gameOverPic;
         int duckMovementCounter = 0;
         int sharkMovementCounter = 0;
 
-        while(this.player.getLives() > 0) {
+        while (this.player.getLives() > 0) {
 
             Thread.sleep(100);
 
@@ -71,19 +73,13 @@ private Picture gameOverPic;
             sharkMovementCounter = sharksMove(sharkMovementCounter);
         }
 
-        gameOver();
+        gameEnded();
+
     }
 
-    public void gameOver(){
-
-        this.gameOverPic = new Picture(grid.columnToX(grid.getCols()) / 2, grid.rowToY(grid.getRows()) / 3, "resources/gameover.png");
-        this.replayText = new Text(grid.columnToX(grid.getCols()) / 2, grid.rowToY(grid.getRows()) / 2+100, "Press \"R\" if you want to play again");
-        gameOverPic.draw();
-        gameOverPic.translate(-100,0);
-        gameOverPic.grow(100,100);
-        replayText.draw();
+    private void gameEnded() {
+        gameOver.displayGameOver();
         player.deletePicture();
-
         for (int i = 0; i < ducks.size(); i++) {
             ducks.get(i).remove();
         }
@@ -94,18 +90,39 @@ private Picture gameOverPic;
         sharks.clear();
     }
 
-    public void restartGame() throws InterruptedException {
-      replayText.delete();
-      replayText = null;
-        gameOverPic.delete();
-        gameOverPic = null;
-        this.start();
+    public
+
+//    public void gameOver(){
+//
+//        this.gameOverPic = new Picture(grid.columnToX(grid.getCols()) / 2, grid.rowToY(grid.getRows()) / 3, "resources/gameover.png");
+//        this.replayText = new Text(grid.columnToX(grid.getCols()) / 2, grid.rowToY(grid.getRows()) / 2+100, "Press \"R\" if you want to play again");
+//        gameOverPic.draw();
+//        gameOverPic.translate(-100,0);
+//        gameOverPic.grow(100,100);
+//        replayText.draw();
+//        player.deletePicture();
+//
+//        for (int i = 0; i < ducks.size(); i++) {
+//            ducks.get(i).remove();
+//        }
+//        for (int i = 0; i < sharks.size(); i++) {
+//            sharks.get(i).remove();
+//        }
+//        ducks.clear();
+//        sharks.clear();
+//    }
+
+//    public void restartGame() throws InterruptedException {
+//      replayText.delete();
+//      replayText = null;
+//        gameOverPic.delete();
+//        gameOverPic = null;
+//        this.start();
 
 
+        //   }
 
-    }
-
-    public boolean collisionDetected(Picture p1, Picture p2) {
+    boolean collisionDetected(Picture p1, Picture p2) {
 
         if (p1.getX() + p1.getWidth() >= p2.getX() && p1.getY() + p1.getHeight() >= p2.getY()
                 && p2.getX() + p2.getWidth() >= p1.getX()
@@ -128,7 +145,7 @@ private Picture gameOverPic;
             duckCatcher = new DuckCatcher(duck);
 
             duck.moveRight();
-            duckMovementCounter ++;
+            duckMovementCounter++;
 
             if (duck.getRightBorder() >= grid.columnToX(grid.getCols())) {
                 duck.remove();

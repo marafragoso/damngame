@@ -28,9 +28,9 @@ public class Grid {
      * Initializes the field simple graphics rectangle and draws it
      */
     public void init() {
-        this.background = new Picture(PADDING, PADDING, "Background.png");
-        background.draw();
-        background.grow(0.25, 0.25);
+//        this.background = new Picture(PADDING, PADDING, "Background.png");
+//        background.draw();
+//        background.grow(0.25, 0.25);
     }
 
     public int getCellSize() {

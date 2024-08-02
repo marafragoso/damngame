@@ -1,6 +1,7 @@
 package com.codeforall.online.damngame.controlers;
 
 import com.codeforall.online.damngame.GameEngine;
+import com.codeforall.online.damngame.GameOver;
 import com.codeforall.online.damngame.Player;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
@@ -21,6 +22,7 @@ public class KeyHandler implements KeyboardHandler {
         createKeyboardEvents();
 
         this.gameEngine = gameEngine;
+
     }
 
     public void createKeyboardEvents() {
@@ -54,7 +56,7 @@ public class KeyHandler implements KeyboardHandler {
                 break;
             case KeyboardEvent.KEY_R:
                 try {
-                    gameEngine.restartGame();
+                    gameEngine.start();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
