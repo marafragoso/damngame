@@ -1,7 +1,8 @@
 package com.codeforall.online.damngame.controlers;
 
+import com.codeforall.online.damngame.GameEngine;
 import com.codeforall.online.damngame.animals.ducks.Duck;
-import com.codeforall.online.damngame.menu.Menu;
+import com.codeforall.online.damngame.animals.ducks.DuckReward;
 import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
 import org.academiadecodigo.simplegraphics.mouse.MouseEventType;
@@ -28,8 +29,12 @@ public class DuckCatcher implements MouseHandler {
                 y <= duck.getLowerBorder() + 50 &&
                 y >= duck.getUpperBorder()) {
 
-            duck.remove();
+            if(duck.hasReward()){
+                DuckReward reward = new DuckReward(duck.getPicture().getX(), duck.getPicture().getY());
+                duck.setDuckReward(reward);
+            }
 
+            duck.remove();
         }
     }
 
