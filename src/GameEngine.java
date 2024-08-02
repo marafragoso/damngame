@@ -121,7 +121,10 @@ public class GameEngine {
             CollisionDetector collectReward = new CollisionDetector(reward.getRewardPic(), this.player.getPicture());
 
             if (collectReward.hasCollided()) {
-                player.setLives(this.player.getLives() + 1);
+                if(player.getLives() < 3){
+                    player.setLives(this.player.getLives() + 1);
+                }
+
                 reward.getRewardPic().delete();
                 rewardIterator.remove();
             }
@@ -144,6 +147,7 @@ public class GameEngine {
 
             if (collision.hasCollided()) {
                 this.player.setLives(this.player.getLives() - 1);
+                System.out.println(this.player.getLives());
 
                 shark.remove();
                 sharkIterator.remove();
