@@ -20,6 +20,7 @@ public class GameEngine {
     private Player player;
     private List<Duck> ducks = new ArrayList<>();
     private List<Shark> sharks = new ArrayList<>();
+    private List<DuckReward> rewards = new ArrayList<>();
     private boolean canGameStart = false;
 
     public GameEngine() {
@@ -59,6 +60,8 @@ public class GameEngine {
             duckMovementCounter = ducksMove(duckMovementCounter);
 
             sharkMovementCounter = sharksMove(sharkMovementCounter);
+
+            rewardsMove();
         }
 
         gameOver();
@@ -85,35 +88,44 @@ public class GameEngine {
             duck.moveRight();
             duckMovementCounter ++;
 
+            if(duck.hasReward() && duck.getDuckReward() != null){
+                rewards.add(duck.getDuckReward());
+                rewardsMove();
+            }
+
             if (duck.getRightBorder() >= grid.columnToX(grid.getCols())) {
                 duck.remove();
             }
 
-            if (duck.getToRemove() && duck.hasReward()){
-                duck.getPicture().delete();
-
-                rewardsMove(duck);
-
-            } else duckIterator.remove();
+            if (duck.getToRemove()) {
+                duckIterator.remove();
+            }
         }
         return duckMovementCounter;
     }
 
-    public void rewardsMove(Duck duck){
-        Picture reward = duck.getDuckReward().getRewardPic();
+    public void rewardsMove() {
 
-        CollisionDetector collectReward = new CollisionDetector(reward, this.player.getPicture());
+        Iterator<DuckReward> rewardIterator = rewards.iterator();
+        while(rewardIterator.hasNext()){
+            DuckReward reward = rewardIterator.next();
 
-        if(reward.getMaxY() < player.getPicture().getMaxY()){
-            duck.getDuckReward().moveDown();
+            reward.getRewardPic().draw();
+            reward.moveDown();
+
+            if(reward.getRewardPic().getMaxY() > player.getPicture().getMaxY()){
+                reward.getRewardPic().delete();
+                rewardIterator.remove();
+            }
+
+            CollisionDetector collectReward = new CollisionDetector(reward.getRewardPic(), this.player.getPicture());
 
             if (collectReward.hasCollided()) {
                 player.setLives(this.player.getLives() + 1);
-                reward.delete();
+                reward.getRewardPic().delete();
+                rewardIterator.remove();
             }
         }
-
-        duck.getDuckReward().getRewardPic().delete();
     }
 
     public int sharksMove(int sharkMovementCounter) {

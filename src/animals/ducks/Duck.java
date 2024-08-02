@@ -5,18 +5,13 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Duck extends Animal{
     private DuckReward duckReward;
-    private boolean reward;
 
     public Duck(Picture picture) {
         super(picture);
     }
 
     public boolean hasReward() {
-         if(Math.random() < 0.2) {
-             this.reward = true;
-             return true;
-         };
-         return false;
+         return Math.random() < 0.20;
     }
 
     public void setDuckReward(DuckReward duckReward){
