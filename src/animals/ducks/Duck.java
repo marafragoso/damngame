@@ -9,6 +9,7 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Duck extends Animal implements MouseHandler {
     private Mouse mouse;
+    private DuckReward duckReward;
     private boolean clicked = false;
 
     public Duck(Picture picture) {
@@ -16,6 +17,18 @@ public class Duck extends Animal implements MouseHandler {
         mouse = new Mouse(this);
         mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
 
+    }
+
+    public boolean hasReward() {
+        return Math.random() < 0.25;
+    }
+
+    public void setDuckReward(DuckReward duckReward){
+        this.duckReward = duckReward;
+    }
+
+    public DuckReward getDuckReward(){
+        return this.duckReward;
     }
 
     @Override
@@ -40,4 +53,6 @@ public class Duck extends Animal implements MouseHandler {
     public boolean isClicked() {
         return this.clicked;
     }
+
+
 }

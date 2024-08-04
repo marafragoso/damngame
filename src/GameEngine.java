@@ -4,13 +4,11 @@ import com.codeforall.online.damngame.animals.AnimalFactory;
 import com.codeforall.online.damngame.animals.ducks.Duck;
 import com.codeforall.online.damngame.animals.sharks.Shark;
 import com.codeforall.online.damngame.controlers.KeyHandler;
+import com.codeforall.online.damngame.controlers.DuckCatcher;
 import com.codeforall.online.damngame.grid.Grid;
 import com.codeforall.online.damngame.menu.Menu;
 import com.codeforall.online.damngame.menu.mouse.MousePointer;
-import org.academiadecodigo.simplegraphics.graphics.Color;
-import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
-
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,8 +19,8 @@ public class GameEngine {
     private Player player;
     private List<Duck> ducks = new ArrayList<>();
     private List<Shark> sharks = new ArrayList<>();
-    private KeyHandler keyHandler;
-    private MousePointer menuPointer;
+    private List<DuckReward> rewards = new ArrayList<>();
+    private boolean canGameStart = false;
     private boolean canGameStart = false;
     private boolean isGameOver = false;
     private Text scoreText;
@@ -32,8 +30,8 @@ public class GameEngine {
     }
 
     public void init() throws InterruptedException {
-        Menu menu = new Menu(this.grid);
-        menuPointer = new MousePointer(menu);
+        Menu menu =  new Menu(this.grid);
+        MenuPointer menuPointer = new MenuPointer(menu);
 
         while (!canGameStart) {
             if (menu.getGameStart()) {
@@ -55,7 +53,7 @@ public class GameEngine {
         this.scoreText.grow(40, 20);
         scoreText.draw();
 
-        this.keyHandler = new KeyHandler(this.player);
+        new KeyHandler(this.player);
 
         int duckMovementCounter = 0;
         int sharkMovementCounter = 0;
@@ -67,6 +65,9 @@ public class GameEngine {
             duckMovementCounter = ducksMove(duckMovementCounter);
 
             sharkMovementCounter = sharksMove(sharkMovementCounter);
+
+            rewardsMove();
+
             this.scoreText.setText("Score: " + this.player.getScore()); // to print the score every cicle
         }
 
@@ -78,17 +79,6 @@ public class GameEngine {
         gameOver.draw();
         gameOver.translate(-100, 0);
         gameOver.grow(100, 100);
-    }
-
-    public boolean collisionDetected(Picture p1, Picture p2) {
-
-        if (p1.getX() + p1.getWidth() >= p2.getX() && p1.getY() + p1.getHeight() >= p2.getY()
-                && p2.getX() + p2.getWidth() >= p1.getX()
-                && p2.getY() + p2.getHeight() >= p1.getY()) {
-
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -109,9 +99,15 @@ public class GameEngine {
             duck.moveRight();
             duckMovementCounter++;
 
+            if (duck.hasReward() && duck.getDuckReward() != null){
+                rewards.add(duck.getDuckReward());
+                rewardsMove();
+            }
+
             if (duck.getRightBorder() >= grid.columnToX(grid.getCols())) { //Duck gets deleted at the edge of the screen
                 duck.remove();
             }
+
 
             if (duck.isClicked()) { // If a player clicks a duck, it's score gets updated; duck gets deleted
                 this.player.increaseScore();
@@ -120,6 +116,33 @@ public class GameEngine {
         }
 
         return duckMovementCounter;
+    }
+
+    public void rewardsMove() {
+
+        Iterator<DuckReward> rewardIterator = rewards.iterator();
+        while(rewardIterator.hasNext()){
+            DuckReward reward = rewardIterator.next();
+
+            reward.getRewardPic().draw();
+            reward.moveDown();
+
+            if(reward.getRewardPic().getMaxY() > player.getPicture().getMaxY()){
+                reward.getRewardPic().delete();
+                rewardIterator.remove();
+            }
+
+            CollisionDetector collectReward = new CollisionDetector(reward.getRewardPic(), this.player.getPicture());
+
+            if (collectReward.hasCollided()) {
+                if(player.getLives() < 3){
+                    player.increaseLives();
+                }
+
+                reward.getRewardPic().delete();
+                rewardIterator.remove();
+            }
+        }
     }
 
     /**
@@ -140,8 +163,11 @@ public class GameEngine {
             shark.moveUp();
             sharkMovementCounter++;
 
-            if (collisionDetected(this.player.getPicture(), shark.getPicture())) { // Deletes shark if it colides
-                this.player.decrementLives(); //Player loses a live
+            CollisionDetector collision = new CollisionDetector(this.player.getPicture(), shark.getPicture());
+
+            if (collision.hasCollided()) {
+                this.player.decrementLives();
+                System.out.println(this.player.getLives());
 
                 shark.remove();
                 sharkIterator.remove();
