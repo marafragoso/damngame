@@ -12,6 +12,8 @@ import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
+import javax.sound.sampled.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -31,7 +33,7 @@ public class GameEngine {
     }
 
     public void init() throws InterruptedException {
-        Menu menu =  new Menu(this.grid);
+        Menu menu = new Menu(this.grid);
         new MenuPointer(menu);
 
         while (!canGameStart) {
@@ -46,6 +48,13 @@ public class GameEngine {
     }
 
     public void start() throws InterruptedException {
+        try {
+            Soundtrack soundtrack = new Soundtrack();
+            soundtrack.play();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+
         this.grid.init();
         this.player = new Player(this.grid);
 
@@ -73,6 +82,7 @@ public class GameEngine {
         }
 
         gameOver();
+
     }
 
     public void gameOver() {
@@ -85,8 +95,8 @@ public class GameEngine {
     /**
      * Iterates through the list of available ducks and moves them
      *
-     * @param duckMovementCounter   The sum of the movements all the ducks have made so far
-     * @return  updates de duckMovement counter
+     * @param duckMovementCounter The sum of the movements all the ducks have made so far
+     * @return updates de duckMovement counter
      */
     public int ducksMove(int duckMovementCounter) {
         if (ducks.isEmpty() || duckMovementCounter % 50 == 0) { //Generates a new duck if the list is empty or at every 50 global duck movement
@@ -100,7 +110,7 @@ public class GameEngine {
             duck.moveRight();
             duckMovementCounter++;
 
-            if (duck.hasReward() && duck.getDuckReward() != null){
+            if (duck.hasReward() && duck.getDuckReward() != null) {
                 rewards.add(duck.getDuckReward());
                 rewardsMove();
             }
@@ -108,7 +118,6 @@ public class GameEngine {
             if (duck.getRightBorder() >= grid.columnToX(grid.getCols())) { //Duck gets deleted at the edge of the screen
                 duck.remove();
             }
-
 
             if (duck.isClicked()) { // If a player clicks a duck, it's score gets updated; duck gets deleted
                 this.player.increaseScore();
@@ -125,26 +134,26 @@ public class GameEngine {
     public void rewardsMove() {
 
         Iterator<DuckReward> rewardIterator = rewards.iterator();
-        while(rewardIterator.hasNext()){
+        while (rewardIterator.hasNext()) {
             DuckReward reward = rewardIterator.next();
 
             reward.getRewardPic().draw();
             reward.moveDown();
 
-            if(reward.getRewardPic().getMaxY() > player.getPicture().getMaxY()){ // Reward is wasted if player doesn't catch it before it touches the sea
+            if (reward.getRewardPic().getMaxY() > player.getPicture().getMaxY()) { // Reward is wasted if player doesn't catch it before it touches the sea
                 reward.getRewardPic().delete();
                 rewardIterator.remove();
             }
 
-            CollisionDetector collectReward = new CollisionDetector(reward.getRewardPic(), this.player.getPicture());
+            CollisionDetector collectReward = new CollisionDetector(this.player.getPicture(), reward.getRewardPic());
 
-            if (collectReward.hasCollided()) { // Increases 1 life per reward catch up to a maximum of 3 lives at one time
-                if(player.getLives() < 3){
+            if (collectReward.hasCollided()) { // Player receives +1 life upon reward catch (up to a maximum of 3 lives)
+                if (player.getLives() < 3) {
                     player.increaseLives();
-                }
 
-                reward.getRewardPic().delete();
-                rewardIterator.remove(); // Reward gets removed after player catches it
+                    reward.getRewardPic().delete();
+                    rewardIterator.remove(); // Reward gets removed after player catches it
+                }
             }
         }
     }
@@ -152,8 +161,8 @@ public class GameEngine {
     /**
      * Iterates through the list of available sharks and moves them
      *
-     * @param sharkMovementCounter  The sum of the movements all the sharks have made so far
-     * @return  updates de sharkMovement counter
+     * @param sharkMovementCounter The sum of the movements all the sharks have made so far
+     * @return updates de sharkMovement counter
      */
     public int sharksMove(int sharkMovementCounter) {
         if (sharks.isEmpty() || sharkMovementCounter % 20 == 0) { //Generates a new shark if the list is empty or at every 20 global shark movements
