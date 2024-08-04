@@ -4,7 +4,6 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public abstract class Animal implements Animation {
     private Picture picture;
-    private boolean toRemove = false;
 
     public Animal(Picture picture) {
         this.picture = picture;
@@ -49,11 +48,6 @@ public abstract class Animal implements Animation {
 
     public void remove() {
         this.picture.delete();
-        this.toRemove = true;
-    }
-
-    public boolean getToRemove() {
-        return toRemove;
     }
 
     public Picture getPicture() {

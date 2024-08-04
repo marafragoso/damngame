@@ -26,12 +26,12 @@ public class Player {
 
     }
 
-    public int getLives(){
+    public int getLives() {
         return this.lives;
     }
 
-    public void decrementLives(){
-        this.lives --;
+    public void decrementLives() {
+        this.lives--;
     }
 
     public void moveLeft() {
@@ -54,4 +54,13 @@ public class Player {
     public Picture getPicture() {
         return this.picture;
     }
+
+    public int getScore() {
+        return this.score;
+    }
+
+    public void increaseScore() {
+        this.score ++;
+    }
 }
+
