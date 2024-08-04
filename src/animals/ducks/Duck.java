@@ -11,7 +11,7 @@ public class Duck extends Animal{
     }
 
     public boolean hasReward() {
-         return Math.random() < 0.20;
+         return Math.random() < 0.25;
     }
 
     public void setDuckReward(DuckReward duckReward){
