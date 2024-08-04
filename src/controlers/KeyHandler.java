@@ -31,6 +31,11 @@ public class KeyHandler implements KeyboardHandler {
         keyboardEventRight.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         keyboard.addEventListener(keyboardEventRight);
 
+        KeyboardEvent keyboardEventEasy = new KeyboardEvent();
+        keyboardEventEasy.setKey(KeyboardEvent.KEY_E);
+        keyboardEventEasy.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        keyboard.addEventListener(keyboardEventEasy);
+
     }
 
     @Override
@@ -41,6 +46,9 @@ public class KeyHandler implements KeyboardHandler {
                 break;
             case KeyboardEvent.KEY_D:
                 player.moveRight();
+                break;
+            case KeyboardEvent.KEY_E:
+                player.setEasyMode(true);
                 break;
         }
     }

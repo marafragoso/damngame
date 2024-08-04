@@ -11,6 +11,7 @@ public class Player {
     private int lives;
     private Picture picture;
     private Grid grid;
+    private boolean easyMode = false;
 
     public Player(Grid grid) {
 
@@ -31,7 +32,9 @@ public class Player {
     }
 
     public void decrementLives() {
-        this.lives--;
+        if(!easyMode) {
+            this.lives--;
+        }
     }
 
     public void increaseLives(){
@@ -65,6 +68,10 @@ public class Player {
 
     public void increaseScore() {
         this.score ++;
+    }
+
+    public void setEasyMode(boolean easyMode) {
+        this.easyMode = true;
     }
 }
 
