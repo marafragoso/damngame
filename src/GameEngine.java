@@ -45,7 +45,7 @@ public class GameEngine {
     public void start() throws InterruptedException {
         this.grid.init();
         this.player = new Player(this.grid);
-        KeyHandler keyHandler = new KeyHandler(this.player);
+        new KeyHandler(this.player);
 
         this.ducks.add(AnimalFactory.getNewDuck(grid));
         this.sharks.add(AnimalFactory.getNewShark(grid));
@@ -122,7 +122,7 @@ public class GameEngine {
 
             if (collectReward.hasCollided()) {
                 if(player.getLives() < 3){
-                    player.setLives(this.player.getLives() + 1);
+                    player.increaseLives();
                 }
 
                 reward.getRewardPic().delete();
@@ -146,7 +146,7 @@ public class GameEngine {
             CollisionDetector collision = new CollisionDetector(this.player.getPicture(), shark.getPicture());
 
             if (collision.hasCollided()) {
-                this.player.setLives(this.player.getLives() - 1);
+                this.player.decrementLives();
                 System.out.println(this.player.getLives());
 
                 shark.remove();

@@ -33,9 +33,10 @@ public class Grid {
         background.grow(0.25, 0.25);
     }
 
-    public int getCellSize() {
-        return cellSize;
+    public void setBackground(Picture picture){
+        this.background = picture;
     }
+
 
     public int getCols() {
         return this.cols;
