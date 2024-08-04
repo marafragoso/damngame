@@ -11,6 +11,7 @@ public class Player {
     private int lives = 3;
     private Picture picture;
     private Grid grid;
+    private boolean easyMode = false;
     private HeartState heartState;
 
     public Player(Grid grid) {
@@ -31,7 +32,9 @@ public class Player {
     }
 
     public void decrementLives() {
-        this.lives --;
+        if(!easyMode){
+            this.lives --;
+        }
 
         heartState.loseLife(); // Changes the heart state to the previous state, until we reach the empty heart state
     }
@@ -69,6 +72,10 @@ public class Player {
 
     public void increaseScore() {
         this.score ++;
+    }
+
+    public void setEasyMode(boolean easyMode) {
+        this.easyMode = true;
     }
 
     public void setSpeed(int speed) {

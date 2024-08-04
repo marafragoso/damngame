@@ -31,6 +31,11 @@ public class KeyHandler implements KeyboardHandler {
         keyboardEventRight.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         keyboard.addEventListener(keyboardEventRight);
 
+        KeyboardEvent keyboardEventEasy = new KeyboardEvent();
+        keyboardEventEasy.setKey(KeyboardEvent.KEY_E);
+        keyboardEventEasy.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        keyboard.addEventListener(keyboardEventEasy);
+
         KeyboardEvent keyboardEventIncreaseSpeed = new KeyboardEvent();
         keyboardEventIncreaseSpeed.setKey(KeyboardEvent.KEY_S);
         keyboardEventIncreaseSpeed.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
@@ -49,6 +54,9 @@ public class KeyHandler implements KeyboardHandler {
                 break;
             case KeyboardEvent.KEY_S:
                 player.setSpeed(30);
+                break;
+            case KeyboardEvent.KEY_E:
+                player.setEasyMode(true);
                 break;
         }
     }
