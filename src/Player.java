@@ -59,12 +59,8 @@ public class Player {
         return this.score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
-    }
-
     public void increaseScore() {
-        this.score = this.score + 100;
+        this.score ++;
     }
 }
 
