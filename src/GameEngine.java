@@ -2,12 +2,14 @@ package com.codeforall.online.damngame;
 
 import com.codeforall.online.damngame.animals.AnimalFactory;
 import com.codeforall.online.damngame.animals.ducks.Duck;
+import com.codeforall.online.damngame.animals.ducks.DuckReward;
 import com.codeforall.online.damngame.animals.sharks.Shark;
 import com.codeforall.online.damngame.controlers.KeyHandler;
-import com.codeforall.online.damngame.controlers.DuckCatcher;
 import com.codeforall.online.damngame.grid.Grid;
 import com.codeforall.online.damngame.menu.Menu;
-import com.codeforall.online.damngame.menu.mouse.MousePointer;
+import com.codeforall.online.damngame.menu.mouse.MenuPointer;
+import org.academiadecodigo.simplegraphics.graphics.Color;
+import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 import java.util.ArrayList;
@@ -21,7 +23,6 @@ public class GameEngine {
     private List<Shark> sharks = new ArrayList<>();
     private List<DuckReward> rewards = new ArrayList<>();
     private boolean canGameStart = false;
-    private boolean canGameStart = false;
     private boolean isGameOver = false;
     private Text scoreText;
 
@@ -31,7 +32,7 @@ public class GameEngine {
 
     public void init() throws InterruptedException {
         Menu menu =  new Menu(this.grid);
-        MenuPointer menuPointer = new MenuPointer(menu);
+        new MenuPointer(menu);
 
         while (!canGameStart) {
             if (menu.getGameStart()) {
@@ -48,7 +49,7 @@ public class GameEngine {
         this.grid.init();
         this.player = new Player(this.grid);
 
-        this.scoreText = new Text(70, 70, "Score: " + player.getScore());
+        this.scoreText = new Text(Grid.PADDING + grid.columnToX(grid.getCols()) / 2, Grid.PADDING * 2, "Score: " + player.getScore());
         this.scoreText.setColor(Color.LIGHT_GRAY);
         this.scoreText.grow(40, 20);
         scoreText.draw();
@@ -118,6 +119,9 @@ public class GameEngine {
         return duckMovementCounter;
     }
 
+    /**
+     * Generates a reward that can give player a new life
+     */
     public void rewardsMove() {
 
         Iterator<DuckReward> rewardIterator = rewards.iterator();
@@ -127,20 +131,20 @@ public class GameEngine {
             reward.getRewardPic().draw();
             reward.moveDown();
 
-            if(reward.getRewardPic().getMaxY() > player.getPicture().getMaxY()){
+            if(reward.getRewardPic().getMaxY() > player.getPicture().getMaxY()){ // Reward is wasted if player doesn't catch it before it touches the sea
                 reward.getRewardPic().delete();
                 rewardIterator.remove();
             }
 
             CollisionDetector collectReward = new CollisionDetector(reward.getRewardPic(), this.player.getPicture());
 
-            if (collectReward.hasCollided()) {
+            if (collectReward.hasCollided()) { // Increases 1 life per reward catch up to a maximum of 3 lives at one time
                 if(player.getLives() < 3){
                     player.increaseLives();
                 }
 
                 reward.getRewardPic().delete();
-                rewardIterator.remove();
+                rewardIterator.remove(); // Reward gets removed after player catches it
             }
         }
     }

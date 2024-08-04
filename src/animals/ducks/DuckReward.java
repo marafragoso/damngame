@@ -6,7 +6,7 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 public class DuckReward implements Animation {
     private Picture reward;
 
-    public DuckReward(int x, int y){
+    public DuckReward(int x, int y) {
         this.reward = new Picture(x,y,"resources/resources/Bird/reward.png");
     }
 
@@ -30,7 +30,7 @@ public class DuckReward implements Animation {
         this.reward.translate(0,10);
     }
 
-    public Picture getRewardPic(){
+    public Picture getRewardPic() {
         return this.reward;
     }
 }

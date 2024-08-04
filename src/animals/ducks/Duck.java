@@ -16,7 +16,6 @@ public class Duck extends Animal implements MouseHandler {
         super(picture);
         mouse = new Mouse(this);
         mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
-
     }
 
     public boolean hasReward() {
@@ -40,6 +39,11 @@ public class Duck extends Animal implements MouseHandler {
                 x <= this.getRightBorder() &&
                 y <= this.getLowerBorder() + 50 &&
                 y >= this.getUpperBorder()) {
+
+            if (this.hasReward()) {
+                DuckReward reward = new DuckReward(this.getPicture().getX(), this.getPicture().getY());
+                this.setDuckReward(reward);
+            }
 
             this.remove();
             this.clicked = true;
