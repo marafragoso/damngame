@@ -1,6 +1,5 @@
 package com.codeforall.online.damngame.animals.ducks;
 
-import com.codeforall.online.damngame.Player;
 import com.codeforall.online.damngame.animals.Animal;
 import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
@@ -10,7 +9,7 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Duck extends Animal implements MouseHandler {
     private Mouse mouse;
-    private boolean wasClicked = false;
+    private boolean clicked = false;
 
     public Duck(Picture picture) {
         super(picture);
@@ -30,18 +29,15 @@ public class Duck extends Animal implements MouseHandler {
                 y >= this.getUpperBorder()) {
 
             this.remove();
-            wasClicked = true;
+            this.clicked = true;
         }
-
-
     }
 
     @Override
     public void mouseMoved(MouseEvent mouseEvent) {
-
     }
 
-    public boolean duckClicked() {
-        return this.wasClicked;
+    public boolean isClicked() {
+        return this.clicked;
     }
 }
