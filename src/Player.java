@@ -31,7 +31,7 @@ public class Player {
     }
 
     public void decrementLives(){
-        this.lives --;
+        this.lives--;
     }
 
     public void moveLeft() {
@@ -53,5 +53,9 @@ public class Player {
 
     public Picture getPicture() {
         return this.picture;
+    }
+
+    public void deletePicture() {
+        this.picture.delete();
     }
 }
