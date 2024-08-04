@@ -23,16 +23,12 @@ public class GameEngine {
     private List<Shark> sharks = new ArrayList<>();
     private KeyHandler keyHandler;
     private MousePointer menuPointer;
-    private boolean canGameStart;
-    private boolean isGameOver;
+    private boolean canGameStart = false;
+    private boolean isGameOver = false;
     private Text scoreText;
 
     public GameEngine() {
         this.grid = new Grid(100, 50);
-
-        this.canGameStart = false;
-        this.isGameOver = false;
-
     }
 
     public void init() throws InterruptedException {
@@ -53,14 +49,13 @@ public class GameEngine {
     public void start() throws InterruptedException {
         this.grid.init();
         this.player = new Player(this.grid);
+
         this.scoreText = new Text(70, 70, "Score: " + player.getScore());
         this.scoreText.setColor(Color.LIGHT_GRAY);
         this.scoreText.grow(40, 20);
         scoreText.draw();
+
         this.keyHandler = new KeyHandler(this.player);
-        Duck newDuck = AnimalFactory.getNewDuck(grid);
-        ducks.add(newDuck);
-        this.sharks.add(AnimalFactory.getNewShark(grid));
 
         int duckMovementCounter = 0;
         int sharkMovementCounter = 0;
@@ -96,10 +91,15 @@ public class GameEngine {
         return false;
     }
 
+    /**
+     * Iterates through the list of available ducks and moves them
+     *
+     * @param duckMovementCounter   The sum of the movements all the ducks have made so far
+     * @return  updates de duckMovement counter
+     */
     public int ducksMove(int duckMovementCounter) {
-        if (ducks.isEmpty() || duckMovementCounter % 50 == 0) {
-            Duck newDuck = AnimalFactory.getNewDuck(grid);
-            ducks.add(newDuck);
+        if (ducks.isEmpty() || duckMovementCounter % 50 == 0) { //Generates a new duck if the list is empty or at every 50 global duck movement
+            ducks.add(AnimalFactory.getNewDuck(grid));
         }
 
         Iterator<Duck> duckIterator = ducks.iterator();
@@ -109,17 +109,12 @@ public class GameEngine {
             duck.moveRight();
             duckMovementCounter++;
 
-            if (duck.getRightBorder() >= grid.columnToX(grid.getCols())) {
+            if (duck.getRightBorder() >= grid.columnToX(grid.getCols())) { //Duck gets deleted at the edge of the screen
                 duck.remove();
             }
-            if (duck.duckClicked()) {
+
+            if (duck.isClicked()) { // If a player clicks a duck, it's score gets updated; duck gets deleted
                 this.player.increaseScore();
-
-            }
-
-            if (duck.getToRemove()) {
-
-
                 duckIterator.remove();
             }
         }
@@ -127,8 +122,14 @@ public class GameEngine {
         return duckMovementCounter;
     }
 
+    /**
+     * Iterates through the list of available sharks and moves them
+     *
+     * @param sharkMovementCounter  The sum of the movements all the sharks have made so far
+     * @return  updates de sharkMovement counter
+     */
     public int sharksMove(int sharkMovementCounter) {
-        if (sharks.isEmpty() || sharkMovementCounter % 20 == 0) {
+        if (sharks.isEmpty() || sharkMovementCounter % 20 == 0) { //Generates a new shark if the list is empty or at every 20 global shark movements
             sharks.add(AnimalFactory.getNewShark(grid));
         }
 
@@ -139,13 +140,13 @@ public class GameEngine {
             shark.moveUp();
             sharkMovementCounter++;
 
-            if (collisionDetected(this.player.getPicture(), shark.getPicture())) {
-                this.player.decrementLives();
+            if (collisionDetected(this.player.getPicture(), shark.getPicture())) { // Deletes shark if it colides
+                this.player.decrementLives(); //Player loses a live
 
                 shark.remove();
                 sharkIterator.remove();
 
-            } else if (shark.getUpperBorder() <= grid.rowToY(grid.getRows()) / 1.53) {
+            } else if (shark.getUpperBorder() <= grid.rowToY(grid.getRows()) / 1.53) { // Shark gets deleted if it reaches the horizon line
                 shark.remove();
                 sharkIterator.remove();
             }
