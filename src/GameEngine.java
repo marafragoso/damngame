@@ -117,6 +117,7 @@ public class GameEngine {
 
             if (duck.getRightBorder() >= grid.columnToX(grid.getCols())) { //Duck gets deleted at the edge of the screen
                 duck.remove();
+                duckIterator.remove();
             }
 
             if (duck.isClicked()) { // If a player clicks a duck, it's score gets updated; duck gets deleted
