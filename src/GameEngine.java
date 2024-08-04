@@ -4,11 +4,13 @@ import com.codeforall.online.damngame.animals.AnimalFactory;
 import com.codeforall.online.damngame.animals.ducks.Duck;
 import com.codeforall.online.damngame.animals.sharks.Shark;
 import com.codeforall.online.damngame.controlers.KeyHandler;
-import com.codeforall.online.damngame.controlers.DuckCatcher;
 import com.codeforall.online.damngame.grid.Grid;
 import com.codeforall.online.damngame.menu.Menu;
 import com.codeforall.online.damngame.menu.mouse.MousePointer;
+import org.academiadecodigo.simplegraphics.graphics.Color;
+import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
+
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,28 +22,29 @@ public class GameEngine {
     private List<Duck> ducks = new ArrayList<>();
     private List<Shark> sharks = new ArrayList<>();
     private KeyHandler keyHandler;
-    private DuckCatcher duckCatcher;
     private MousePointer menuPointer;
     private boolean canGameStart;
     private boolean isGameOver;
+    private Text scoreText;
 
     public GameEngine() {
         this.grid = new Grid(100, 50);
 
         this.canGameStart = false;
         this.isGameOver = false;
+
     }
 
     public void init() throws InterruptedException {
-        Menu menu =  new Menu(this.grid);
+        Menu menu = new Menu(this.grid);
         menuPointer = new MousePointer(menu);
 
-        while(!canGameStart){
-            if(menu.getGameStart()){
+        while (!canGameStart) {
+            if (menu.getGameStart()) {
                 this.canGameStart = true;
                 menu = null;
                 start();
-            }else if(menu.getQuitGame()){
+            } else if (menu.getQuitGame()) {
                 System.exit(0);
             }
         }
@@ -50,31 +53,36 @@ public class GameEngine {
     public void start() throws InterruptedException {
         this.grid.init();
         this.player = new Player(this.grid);
+        this.scoreText = new Text(70, 70, "Score: " + player.getScore());
+        this.scoreText.setColor(Color.LIGHT_GRAY);
+        this.scoreText.grow(40, 20);
+        scoreText.draw();
         this.keyHandler = new KeyHandler(this.player);
-
-        this.ducks.add(AnimalFactory.getNewDuck(grid));
+        Duck newDuck = AnimalFactory.getNewDuck(grid);
+        ducks.add(newDuck);
         this.sharks.add(AnimalFactory.getNewShark(grid));
 
         int duckMovementCounter = 0;
         int sharkMovementCounter = 0;
 
-        while(this.player.getLives() > 0) {
+        while (this.player.getLives() > 0) {
 
             Thread.sleep(100);
 
             duckMovementCounter = ducksMove(duckMovementCounter);
 
             sharkMovementCounter = sharksMove(sharkMovementCounter);
+            this.scoreText.setText("Score: " + this.player.getScore()); // to print the score every cicle
         }
 
         gameOver();
     }
 
-    public void gameOver(){
+    public void gameOver() {
         Picture gameOver = new Picture(grid.columnToX(grid.getCols()) / 2, grid.rowToY(grid.getRows()) / 3, "resources/gameover.png");
         gameOver.draw();
-        gameOver.translate(-100,0);
-        gameOver.grow(100,100);
+        gameOver.translate(-100, 0);
+        gameOver.grow(100, 100);
     }
 
     public boolean collisionDetected(Picture p1, Picture p2) {
@@ -90,23 +98,28 @@ public class GameEngine {
 
     public int ducksMove(int duckMovementCounter) {
         if (ducks.isEmpty() || duckMovementCounter % 50 == 0) {
-            ducks.add(AnimalFactory.getNewDuck(grid));
+            Duck newDuck = AnimalFactory.getNewDuck(grid);
+            ducks.add(newDuck);
         }
 
         Iterator<Duck> duckIterator = ducks.iterator();
         while (duckIterator.hasNext()) {
             Duck duck = duckIterator.next();
 
-            duckCatcher = new DuckCatcher(duck);
-
             duck.moveRight();
-            duckMovementCounter ++;
+            duckMovementCounter++;
 
             if (duck.getRightBorder() >= grid.columnToX(grid.getCols())) {
                 duck.remove();
             }
+            if (duck.duckClicked()) {
+                this.player.increaseScore();
+
+            }
 
             if (duck.getToRemove()) {
+
+
                 duckIterator.remove();
             }
         }

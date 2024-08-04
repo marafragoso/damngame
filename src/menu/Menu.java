@@ -1,6 +1,5 @@
 package com.codeforall.online.damngame.menu;
 
-import com.codeforall.online.damngame.controlers.DuckCatcher;
 import com.codeforall.online.damngame.grid.Grid;
 import com.codeforall.online.damngame.menu.buttons.QuitButton;
 import com.codeforall.online.damngame.menu.buttons.StartButton;
@@ -11,12 +10,12 @@ public class Menu {
     private Picture background;
     private StartButton startButton;
     private QuitButton quitButton;
-    private DuckCatcher mouse;
+
     private boolean gameStart = false;
     private boolean quitGame = false;
 
 
-    public Menu(Grid grid){
+    public Menu(Grid grid) {
         this.grid = grid;
         this.startButton = new StartButton();
         this.quitButton = new QuitButton();
@@ -26,49 +25,50 @@ public class Menu {
         drawButtons();
     }
 
-    public Grid getGrid(){
+    public Grid getGrid() {
         return this.grid;
     }
 
-    public Picture getBackground(){
+    public Picture getBackground() {
         return this.background;
     }
 
-    public StartButton getStartButton(){
+    public StartButton getStartButton() {
         return this.startButton;
     }
 
-    public QuitButton getQuitButton(){
+    public QuitButton getQuitButton() {
         return this.quitButton;
     }
 
-    private void drawTitle(){
-        Picture title =  new Picture(Grid.PADDING * 7.5 + grid.columnToX(this.background.getX()), Grid.PADDING, "resources/resources/menu/name.png");
+    private void drawTitle() {
+        Picture title = new Picture(Grid.PADDING * 7.5 + grid.columnToX(this.background.getX()), Grid.PADDING, "resources/resources/menu/name.png");
         title.draw();
     }
 
-    private void drawBackground(){
+    private void drawBackground() {
         this.background = new Picture(Grid.PADDING, Grid.PADDING, "resources/resources/menu/menuBackground.png");
         this.background.draw();
     }
 
-    private void drawButtons(){
+    private void drawButtons() {
         startButton.drawButton(grid, background);
         quitButton.drawButton(grid, background);
     }
 
-    public boolean getGameStart(){
+    public boolean getGameStart() {
         return this.gameStart;
     }
-    public void setGameStart(){
+
+    public void setGameStart() {
         this.gameStart = true;
     }
 
-    public boolean getQuitGame(){
+    public boolean getQuitGame() {
         return this.quitGame;
     }
 
-    public void setQuitGame(){
+    public void setQuitGame() {
         this.quitGame = true;
     }
 

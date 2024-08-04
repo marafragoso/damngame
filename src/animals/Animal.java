@@ -29,7 +29,7 @@ public abstract class Animal implements Animation {
 
     @Override
     public void moveRight() {
-        this.picture.translate(20, 0);
+        this.picture.translate(5, 0);
     }
 
     @Override
