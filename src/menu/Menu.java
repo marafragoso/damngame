@@ -25,14 +25,6 @@ public class Menu {
         drawButtons();
     }
 
-    public Grid getGrid() {
-        return this.grid;
-    }
-
-    public Picture getBackground() {
-        return this.background;
-    }
-
     public StartButton getStartButton() {
         return this.startButton;
     }
