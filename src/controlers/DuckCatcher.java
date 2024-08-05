@@ -1,5 +1,6 @@
 package com.codeforall.online.damngame.controlers;
 
+import com.codeforall.online.damngame.Player;
 import com.codeforall.online.damngame.animals.ducks.Duck;
 import com.codeforall.online.damngame.menu.Menu;
 import org.academiadecodigo.simplegraphics.mouse.Mouse;

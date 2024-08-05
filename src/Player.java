@@ -10,6 +10,10 @@ public class Player {
     private int score;
     private int lives;
     private Picture picture;
+    private Picture picture1;
+    private Picture picture2;
+    private Picture pictureFull;
+    private Picture pictureEmpty;
     private Grid grid;
 
     public Player(Grid grid) {
@@ -19,10 +23,18 @@ public class Player {
         this.speed = 10;
         this.score = 0;
         this.lives = 3;
-        this.picture = new Picture(position.getCol(), position.getRow(), Grid.RESOURCE + "Raft_resize.png");
+        this.picture = new Picture(position.getCol(), position.getRow(), Grid.RESOURCE + "resources/Raft_resize.png");
+        this.pictureFull = new Picture(Grid.PADDING, Grid.PADDING, Grid.RESOURCE + "resources/full-hearts.png");
+        this.pictureEmpty = new Picture(Grid.PADDING,Grid.PADDING, Grid.RESOURCE + "resources/no_lifes.png");
+        this.picture1 = new Picture(Grid.PADDING,Grid.PADDING, Grid.RESOURCE + "resources/1 heart.png");
+        this.picture2 = new Picture(Grid.PADDING,Grid.PADDING, Grid.RESOURCE + "resources/2hearts.png");
 
         this.picture.draw();
         picture.grow(0.25, 0.25);
+
+        this.pictureFull.draw();
+        pictureFull.grow(0.25, 0.25);
+
 
     }
 
@@ -32,6 +44,28 @@ public class Player {
 
     public void decrementLives(){
         this.lives --;
+        if(lives==2){
+            this.pictureFull.delete();
+            this.picture2.draw();
+        } else if(lives==1) {
+            this.picture2.delete();
+            this.picture1.draw();
+        } else if(lives==0) {
+            this.picture1.delete();
+            this.pictureEmpty.draw();
+        }
+    }
+
+    public void incrementLives(){
+        this.lives++;
+        if(lives==1){
+            this.picture1.delete();
+            this.picture2.draw();
+        } else if(lives==2){
+            this.picture2.delete();
+            this.pictureFull.draw();
+        }
+
     }
 
     public void moveLeft() {
@@ -54,4 +88,5 @@ public class Player {
     public Picture getPicture() {
         return this.picture;
     }
+
 }

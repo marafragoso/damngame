@@ -108,6 +108,7 @@ public class GameEngine {
 
             if (duck.getToRemove()) {
                 duckIterator.remove();
+
             }
         }
 
