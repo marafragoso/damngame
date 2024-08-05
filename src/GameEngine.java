@@ -6,8 +6,10 @@ import com.codeforall.online.damngame.animals.ducks.DuckReward;
 import com.codeforall.online.damngame.animals.sharks.Shark;
 import com.codeforall.online.damngame.controlers.KeyHandler;
 import com.codeforall.online.damngame.grid.Grid;
+import com.codeforall.online.damngame.menu.MainMenu;
 import com.codeforall.online.damngame.menu.Menu;
 import com.codeforall.online.damngame.menu.mouse.MenuPointer;
+import com.codeforall.online.damngame.menu.mouse.SettingsPointer;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
@@ -33,15 +35,16 @@ public class GameEngine {
     }
 
     public void init() throws InterruptedException {
-        Menu menu = new Menu(this.grid);
-        new MenuPointer(menu);
+        MainMenu menu = new MainMenu(this.grid);
 
-        while (!canGameStart) {
+        while (!menu.getGameStart()) {
             if (menu.getGameStart()) {
                 this.canGameStart = true;
-                menu = null;
+                menu.delete();
                 start();
-            } else if (menu.getQuitGame()) {
+            }
+
+            if (menu.getQuitGame()) {
                 System.exit(0);
             }
         }
@@ -82,7 +85,6 @@ public class GameEngine {
         }
 
         gameOver();
-
     }
 
     public void gameOver() {

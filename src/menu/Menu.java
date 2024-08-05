@@ -1,41 +1,16 @@
 package com.codeforall.online.damngame.menu;
 
 import com.codeforall.online.damngame.grid.Grid;
-import com.codeforall.online.damngame.menu.buttons.QuitButton;
-import com.codeforall.online.damngame.menu.buttons.StartButton;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
-public class Menu {
-    private Grid grid;
-    private Picture background;
-    private StartButton startButton;
-    private QuitButton quitButton;
-
-    private boolean gameStart = false;
-    private boolean quitGame = false;
-
+public abstract class Menu {
+    protected Grid grid;
+    protected Picture background;
 
     public Menu(Grid grid) {
         this.grid = grid;
-        this.startButton = new StartButton();
-        this.quitButton = new QuitButton();
 
         drawBackground();
-        drawTitle();
-        drawButtons();
-    }
-
-    public StartButton getStartButton() {
-        return this.startButton;
-    }
-
-    public QuitButton getQuitButton() {
-        return this.quitButton;
-    }
-
-    private void drawTitle() {
-        Picture title = new Picture(Grid.PADDING * 7.5 + grid.columnToX(this.background.getX()), Grid.PADDING, "resources/resources/menu/name.png");
-        title.draw();
     }
 
     private void drawBackground() {
@@ -43,25 +18,8 @@ public class Menu {
         this.background.draw();
     }
 
-    private void drawButtons() {
-        startButton.drawButton(grid, background);
-        quitButton.drawButton(grid, background);
+    public void delete() {
+        this.grid = null;
+        this.background.delete();
     }
-
-    public boolean getGameStart() {
-        return this.gameStart;
-    }
-
-    public void setGameStart() {
-        this.gameStart = true;
-    }
-
-    public boolean getQuitGame() {
-        return this.quitGame;
-    }
-
-    public void setQuitGame() {
-        this.quitGame = true;
-    }
-
 }

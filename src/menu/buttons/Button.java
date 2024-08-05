@@ -20,4 +20,8 @@ public abstract class Button {
     public int getWidth() {
         return this.button.getMaxX();
     }
+
+    public void delete() {
+        this.button.delete();
+    }
 }
