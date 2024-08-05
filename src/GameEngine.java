@@ -148,11 +148,11 @@ public class GameEngine {
             CollisionDetector collectReward = new CollisionDetector(this.player.getPicture(), reward.getRewardPic());
 
             if (collectReward.hasCollided()) { // Player receives +1 life upon reward catch (up to a maximum of 3 lives)
-                if (player.getLives() < 3) {
-                    player.increaseLives();
+                reward.getRewardPic().delete();
+                rewardIterator.remove();
 
-                    reward.getRewardPic().delete();
-                    rewardIterator.remove(); // Reward gets removed after player catches it
+                if (player.getLives() < 3) {
+                    player.increaseLives();// Reward gets removed after player catches it
                 }
             }
         }
