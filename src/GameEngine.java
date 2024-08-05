@@ -152,7 +152,7 @@ public class GameEngine {
                 rewardIterator.remove();
 
                 if (player.getLives() < 3) {
-                    player.increaseLives();// Reward gets removed after player catches it
+                    player.incrementLives();// Reward gets removed after player catches it
                 }
             }
         }
