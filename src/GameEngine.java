@@ -11,6 +11,7 @@ import com.codeforall.online.damngame.menu.mouse.MenuPointer;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
+import com.codeforall.online.damngame.ScoreFile;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,15 +24,19 @@ public class GameEngine {
     private List<Shark> sharks = new ArrayList<>();
     private List<DuckReward> rewards = new ArrayList<>();
     private boolean canGameStart = false;
-    private boolean isGameOver = false;
     private Text scoreText;
+    private ScoreFile scoreFile;
+    private int highScore;
+
 
     public GameEngine() {
         this.grid = new Grid(100, 50);
+        this.scoreFile = new ScoreFile("highScore.txt");
+        this.highScore = Integer.parseInt(scoreFile.readFile());
     }
 
     public void init() throws InterruptedException {
-        Menu menu =  new Menu(this.grid);
+        Menu menu = new Menu(this.grid);
         new MenuPointer(menu);
 
         while (!canGameStart) {
@@ -72,6 +77,12 @@ public class GameEngine {
             this.scoreText.setText("Score: " + this.player.getScore()); // to print the score every cicle
         }
 
+        if (player.getScore() > highScore) {
+            highScore = player.getScore();
+            this.scoreFile.writeFile(String.valueOf(highScore));
+
+        }
+
         gameOver();
     }
 
@@ -85,8 +96,8 @@ public class GameEngine {
     /**
      * Iterates through the list of available ducks and moves them
      *
-     * @param duckMovementCounter   The sum of the movements all the ducks have made so far
-     * @return  updates de duckMovement counter
+     * @param duckMovementCounter The sum of the movements all the ducks have made so far
+     * @return updates de duckMovement counter
      */
     public int ducksMove(int duckMovementCounter) {
         if (ducks.isEmpty() || duckMovementCounter % 50 == 0) { //Generates a new duck if the list is empty or at every 50 global duck movement
@@ -100,7 +111,7 @@ public class GameEngine {
             duck.moveRight();
             duckMovementCounter++;
 
-            if (duck.hasReward() && duck.getDuckReward() != null){
+            if (duck.hasReward() && duck.getDuckReward() != null) {
                 rewards.add(duck.getDuckReward());
                 rewardsMove();
             }
@@ -125,13 +136,13 @@ public class GameEngine {
     public void rewardsMove() {
 
         Iterator<DuckReward> rewardIterator = rewards.iterator();
-        while(rewardIterator.hasNext()){
+        while (rewardIterator.hasNext()) {
             DuckReward reward = rewardIterator.next();
 
             reward.getRewardPic().draw();
             reward.moveDown();
 
-            if(reward.getRewardPic().getMaxY() > player.getPicture().getMaxY()){ // Reward is wasted if player doesn't catch it before it touches the sea
+            if (reward.getRewardPic().getMaxY() > player.getPicture().getMaxY()) { // Reward is wasted if player doesn't catch it before it touches the sea
                 reward.getRewardPic().delete();
                 rewardIterator.remove();
             }
@@ -139,7 +150,7 @@ public class GameEngine {
             CollisionDetector collectReward = new CollisionDetector(reward.getRewardPic(), this.player.getPicture());
 
             if (collectReward.hasCollided()) { // Increases 1 life per reward catch up to a maximum of 3 lives at one time
-                if(player.getLives() < 3){
+                if (player.getLives() < 3) {
                     player.increaseLives();
                 }
 
@@ -152,8 +163,8 @@ public class GameEngine {
     /**
      * Iterates through the list of available sharks and moves them
      *
-     * @param sharkMovementCounter  The sum of the movements all the sharks have made so far
-     * @return  updates de sharkMovement counter
+     * @param sharkMovementCounter The sum of the movements all the sharks have made so far
+     * @return updates de sharkMovement counter
      */
     public int sharksMove(int sharkMovementCounter) {
         if (sharks.isEmpty() || sharkMovementCounter % 20 == 0) { //Generates a new shark if the list is empty or at every 20 global shark movements
