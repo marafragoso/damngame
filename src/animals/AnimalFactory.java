@@ -29,15 +29,11 @@ public class AnimalFactory {
     private static int duckInitialY(Grid grid) {
         int randomY = (int) (Math.random() * (grid.rowToY(grid.getRows())) / 4) + Grid.PADDING;
 
-        if (randomY < 34) {
-            return 34;
-        } else if (randomY < 68) {
-            return 68;
-        } else if (randomY < 102) {
-            return 102;
-        } else if (randomY < 136) {
-            return 136;
+        if (randomY < 150) {
+            return 150;
+        } else if (randomY < 200) {
+            return 200;
         } else
-            return 170;
+            return 250;
     }
 }
