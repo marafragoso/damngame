@@ -6,11 +6,11 @@ import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
 import org.academiadecodigo.simplegraphics.mouse.MouseEventType;
 import org.academiadecodigo.simplegraphics.mouse.MouseHandler;
 
-public class MousePointer implements MouseHandler {
+public class MenuPointer implements MouseHandler {
     private Mouse mouse;
     private Menu menu;
 
-    public MousePointer(Menu menuButton){
+    public MenuPointer(Menu menuButton){
         this.menu = menuButton;
 
         mouse = new Mouse(this);

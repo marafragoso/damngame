@@ -46,7 +46,6 @@ public class KeyHandler implements KeyboardHandler {
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
-        // this is going to happen when keys F or R are pressed
         switch (keyboardEvent.getKey()) {
             case KeyboardEvent.KEY_A:
                 player.moveLeft();
@@ -66,6 +65,5 @@ public class KeyHandler implements KeyboardHandler {
 
     @Override
     public void keyReleased(KeyboardEvent keyboardEvent) {
-        // specify what will happen when the keys are released
     }
 }

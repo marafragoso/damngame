@@ -11,7 +11,7 @@ public class Menu {
     private Picture background;
     private StartButton startButton;
     private QuitButton quitButton;
-    private DuckCatcher mouse;
+
     private boolean gameStart = false;
     private boolean quitGame = false;
 
@@ -26,15 +26,15 @@ public class Menu {
         drawButtons();
     }
 
-    public Grid getGrid() {
+    public Grid getGrid(){
         return this.grid;
     }
 
-    public Picture getBackground() {
+    public Picture getBackground(){
         return this.background;
     }
 
-    public StartButton getStartButton() {
+    public StartButton getStartButton(){
         return this.startButton;
     }
 

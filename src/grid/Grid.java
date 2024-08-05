@@ -1,6 +1,5 @@
 package com.codeforall.online.damngame.grid;
 
-import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Grid {
@@ -31,10 +30,6 @@ public class Grid {
 //        this.background = new Picture(PADDING, PADDING, "Background.png");
 //        background.draw();
 //        background.grow(0.25, 0.25);
-    }
-
-    public int getCellSize() {
-        return cellSize;
     }
 
     public int getCols() {
