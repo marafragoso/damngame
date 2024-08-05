@@ -58,7 +58,7 @@ public class GameEngine {
         this.grid.init();
         this.player = new Player(this.grid);
 
-        this.scoreText = new Text(Grid.PADDING + grid.columnToX(grid.getCols()) / 2, Grid.PADDING * 2, "Score: " + player.getScore());
+        this.scoreText = new Text(Grid.PADDING + 50, Grid.PADDING + 70 , "Score: " + player.getScore());
         this.scoreText.setColor(Color.LIGHT_GRAY);
         this.scoreText.grow(40, 20);
         scoreText.draw();
