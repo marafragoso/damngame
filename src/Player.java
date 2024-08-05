@@ -34,8 +34,8 @@ public class Player {
         this.lives--;
     }
 
-    public void increaseLives(){
-        this.lives ++;
+    public void increaseLives() {
+        this.lives++;
     }
 
     public void moveLeft() {
@@ -64,7 +64,11 @@ public class Player {
     }
 
     public void increaseScore() {
-        this.score ++;
+        this.score++;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 }
 

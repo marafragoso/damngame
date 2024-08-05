@@ -31,6 +31,11 @@ public class KeyHandler implements KeyboardHandler {
         keyboardEventRight.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         keyboard.addEventListener(keyboardEventRight);
 
+        KeyboardEvent keyboardEventIncreaseSpeed = new KeyboardEvent();
+        keyboardEventIncreaseSpeed.setKey(KeyboardEvent.KEY_S);
+        keyboardEventIncreaseSpeed.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        keyboard.addEventListener(keyboardEventIncreaseSpeed);
+
     }
 
     @Override
@@ -41,6 +46,9 @@ public class KeyHandler implements KeyboardHandler {
                 break;
             case KeyboardEvent.KEY_D:
                 player.moveRight();
+                break;
+            case KeyboardEvent.KEY_S:
+                player.setSpeed(30);
                 break;
         }
     }
