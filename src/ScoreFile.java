@@ -23,21 +23,19 @@ public class ScoreFile {
         }
     }
 
-    public String readFile() {
-        try {
-            char[] scoreArray = new char[10];
-            FileReader fr = new FileReader(this.fileName);
-            fr.read(scoreArray);
-            fr.close();
+    public int readFile() {
+        try (BufferedReader br = new BufferedReader(new FileReader(this.fileName))) {
+            String line = br.readLine();
+            int score = Integer.parseInt(line);
 
-            return new String(scoreArray);
+            return score;
 
         } catch (FileNotFoundException e) {
             System.err.println("File not found: " + e.getMessage());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return "0";
+        return 0;
     }
 }
 

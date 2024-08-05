@@ -25,14 +25,16 @@ public class GameEngine {
     private List<DuckReward> rewards = new ArrayList<>();
     private boolean canGameStart = false;
     private Text scoreText;
+    private Text highScoreText;
     private ScoreFile scoreFile;
     private int highScore;
 
 
     public GameEngine() {
         this.grid = new Grid(100, 50);
-        this.scoreFile = new ScoreFile("highScore.txt");
-        this.highScore = Integer.parseInt(scoreFile.readFile());
+        this.scoreFile = new ScoreFile("resources/highScore.txt");
+        this.highScore = this.scoreFile.readFile();
+
     }
 
     public void init() throws InterruptedException {
@@ -58,6 +60,10 @@ public class GameEngine {
         this.scoreText.setColor(Color.LIGHT_GRAY);
         this.scoreText.grow(40, 20);
         scoreText.draw();
+        this.highScoreText = new Text(100, 20, "High Score: " + this.highScore);
+        this.highScoreText.setColor(Color.LIGHT_GRAY);
+        this.highScoreText.grow(40, 20);
+        highScoreText.draw();
 
         new KeyHandler(this.player);
 
@@ -77,11 +83,6 @@ public class GameEngine {
             this.scoreText.setText("Score: " + this.player.getScore()); // to print the score every cicle
         }
 
-        if (player.getScore() > highScore) {
-            highScore = player.getScore();
-            this.scoreFile.writeFile(String.valueOf(highScore));
-
-        }
 
         gameOver();
     }
@@ -124,6 +125,13 @@ public class GameEngine {
             if (duck.isClicked()) { // If a player clicks a duck, it's score gets updated; duck gets deleted
                 this.player.increaseScore();
                 duckIterator.remove();
+
+                if (player.getScore() > highScore) {
+
+                    highScoreText.setText("High Score: " + String.valueOf(player.getScore()));
+                    this.scoreFile.writeFile(String.valueOf(player.getScore()));
+
+                }
             }
         }
 
