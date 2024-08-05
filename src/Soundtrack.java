@@ -24,5 +24,7 @@ public class Soundtrack {
         this.clip.open(this.audioInput);
 
         this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+
+        this.audioInput.close();
     }
 }
