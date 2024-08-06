@@ -19,7 +19,7 @@ public abstract class Menu {
     }
 
     public void delete() {
-        this.grid = null;
+        this.grid.delete();
         this.background.delete();
     }
 }

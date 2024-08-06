@@ -1,5 +1,6 @@
 package com.codeforall.online.damngame.player;
 
+import com.codeforall.online.damngame.controlers.KeyHandler;
 import com.codeforall.online.damngame.grid.Position;
 import com.codeforall.online.damngame.grid.Grid;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
@@ -13,6 +14,7 @@ public class Player {
     private Grid grid;
     private boolean easyMode = false;
     private HeartState heartState;
+    private KeyHandler keyHandler;
 
     public Player(Grid grid) {
         this.grid = grid;
@@ -88,6 +90,12 @@ public class Player {
 
     public void setHeartState(HeartState heartState) {
         this.heartState = heartState;
+    }
+
+    public void delete() {
+
+        this.picture.delete();
+        this.heartState.delete();
     }
 }
 

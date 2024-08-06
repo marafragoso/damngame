@@ -5,14 +5,12 @@ import com.codeforall.online.damngame.animals.ducks.Duck;
 import com.codeforall.online.damngame.animals.ducks.DuckReward;
 import com.codeforall.online.damngame.animals.sharks.Shark;
 import com.codeforall.online.damngame.controlers.KeyHandler;
+import com.codeforall.online.damngame.gameOver.GameOver;
 import com.codeforall.online.damngame.grid.Grid;
-import com.codeforall.online.damngame.menu.Menu;
-import com.codeforall.online.damngame.menu.mouse.MenuPointer;
 import com.codeforall.online.damngame.player.Player;
 import com.codeforall.online.damngame.menu.MainMenu;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Text;
-import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
@@ -22,25 +20,26 @@ import java.util.List;
 
 public class GameEngine {
     private Grid grid;
-    private com.codeforall.online.damngame.player.Player player;
+    private Player player;
+    private Soundtrack soundtrack;
+    private KeyHandler keyHandler;
     private List<Duck> ducks = new ArrayList<>();
     private List<Shark> sharks = new ArrayList<>();
     private List<DuckReward> rewards = new ArrayList<>();
-    private boolean canGameStart = false;
-    private boolean isGameOver = false;
     private Text scoreText;
+    private GameOver gameOver;
 
     public GameEngine() {
-        this.grid = new Grid(100, 50);
     }
 
     public void init() throws InterruptedException {
+        this.grid = new Grid(100, 50);
+
         MainMenu menu = new MainMenu(this.grid);
 
         while (true) {
             if (menu.getGameStart()) {
-                this.canGameStart = true;
-                menu.delete();
+                //menu.delete();
                 start();
                 break;
             }
@@ -55,21 +54,22 @@ public class GameEngine {
 
     public void start() throws InterruptedException {
         try {
-            Soundtrack soundtrack = new Soundtrack();
+            soundtrack = new Soundtrack();
             soundtrack.play();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             throw new RuntimeException(e);
         }
 
         this.grid.init();
+
         this.player = new Player(this.grid);
+
+        this.keyHandler = new KeyHandler(this.player);
 
         this.scoreText = new Text(Grid.PADDING + 50, Grid.PADDING + 70 , "Score: " + player.getScore());
         this.scoreText.setColor(Color.LIGHT_GRAY);
         this.scoreText.grow(40, 20);
         scoreText.draw();
-
-        new KeyHandler(this.player);
 
         int duckMovementCounter = 0;
         int sharkMovementCounter = 0;
@@ -90,11 +90,49 @@ public class GameEngine {
         gameOver();
     }
 
-    public void gameOver() {
-        Picture gameOver = new Picture(grid.columnToX(grid.getCols()) / 2, grid.rowToY(grid.getRows()) / 3, "resources/gameover.png");
-        gameOver.draw();
-        gameOver.translate(-100, 0);
-        gameOver.grow(100, 100);
+    public void gameOver() throws InterruptedException {
+        this.soundtrack.stop();
+        deleteElements();
+        gameOver = new GameOver(this.grid, this);
+
+    }
+
+    public void deleteElements() {
+        if(this.player != null){
+            this.player.delete();
+            this.player = null;
+        }
+
+        for(int i = 0; i < ducks.size(); i++) {
+            ducks.get(i).remove();
+        }
+        ducks.clear();
+
+        for(int i = 0; i < sharks.size(); i++) {
+            sharks.get(i).remove();
+        }
+        sharks.clear();
+
+        for(int i = 0; i < rewards.size(); i++) {
+            rewards.get(i).remove();
+        }
+        rewards.clear();
+
+        if (this.scoreText != null) {
+            this.scoreText.delete();
+        }
+    }
+
+    public void restartGame() {
+        this.grid.delete();
+
+        System.out.println("Game is restarting");
+
+        try {
+            init();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

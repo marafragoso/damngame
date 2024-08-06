@@ -27,4 +27,8 @@ public class Soundtrack {
 
         this.audioInput.close();
     }
+
+    public void stop() {
+        this.clip.stop();
+    }
 }
