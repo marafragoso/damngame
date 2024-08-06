@@ -6,26 +6,23 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Player {
     private Position position;
-    private int speed;
+    private int speed = 10;
     private int score;
-    private int lives;
+    private int lives = 3;
     private Picture picture;
     private Grid grid;
     private HeartState heartState;
 
     public Player(Grid grid) {
-
         this.grid = grid;
-        this.position = new Position(grid, grid.getCols() / 2, grid.getRows() / 2);
-        this.speed = 10;
-        this.score = 0;
-        this.lives = 3;
-        this.picture = new Picture(position.getCol(), position.getRow(), Grid.RESOURCE + "resources/Raft_resize.png");
 
+        this.position = new Position(grid, grid.getCols() / 2, grid.getRows() / 2);
+
+        this.picture = new Picture(position.getCol(), position.getRow(), Grid.RESOURCE + "resources/Raft_resize.png");
         this.picture.draw();
         picture.grow(0.25, 0.25);
 
-        this.heartState = new FullHeartState(this);
+        this.heartState = new FullHeartState(this); //Initializing heart state to the state of full hearts
         this.heartState.drawHearts();
     }
 
@@ -36,13 +33,13 @@ public class Player {
     public void decrementLives() {
         this.lives --;
 
-        heartState.loseLife();
+        heartState.loseLife(); // Changes the heart state to the previous state, until we reach the empty heart state
     }
 
     public void incrementLives() {
         this.lives ++;
 
-        heartState.gainLife();
+        heartState.gainLife(); // Changes the heart state to the next state, until we reach the full heart state
     }
 
     public void moveLeft() {

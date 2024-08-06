@@ -4,6 +4,10 @@ package com.codeforall.online.damngame.player;
 import com.codeforall.online.damngame.grid.Grid;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
+/**
+ * Implementing the State DP, encapsulating the change in the state of the player's lives
+ */
+
 public abstract class HeartState {
     protected Player player;
     protected Picture hearts;
@@ -14,7 +18,9 @@ public abstract class HeartState {
     }
 
     public abstract void drawHearts();
+
     public abstract void gainLife();
+
     public abstract void loseLife();
 
 }
