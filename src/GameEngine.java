@@ -9,6 +9,7 @@ import com.codeforall.online.damngame.grid.Grid;
 import com.codeforall.online.damngame.menu.Menu;
 import com.codeforall.online.damngame.menu.mouse.MenuPointer;
 import com.codeforall.online.damngame.player.Player;
+import com.codeforall.online.damngame.menu.MainMenu;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
@@ -34,17 +35,21 @@ public class GameEngine {
     }
 
     public void init() throws InterruptedException {
-        Menu menu = new Menu(this.grid);
-        new MenuPointer(menu);
+        MainMenu menu = new MainMenu(this.grid);
 
-        while (!canGameStart) {
+        while (true) {
             if (menu.getGameStart()) {
                 this.canGameStart = true;
-                menu = null;
+                menu.delete();
                 start();
-            } else if (menu.getQuitGame()) {
+                break;
+            }
+
+            if (menu.getQuitGame()) {
                 System.exit(0);
             }
+
+            Thread.sleep(100);
         }
     }
 
@@ -83,7 +88,6 @@ public class GameEngine {
         }
 
         gameOver();
-
     }
 
     public void gameOver() {
