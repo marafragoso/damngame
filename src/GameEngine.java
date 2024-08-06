@@ -1,5 +1,6 @@
 package com.codeforall.online.damngame;
 
+import com.codeforall.online.damngame.HighScore.HighScore;
 import com.codeforall.online.damngame.animals.AnimalFactory;
 import com.codeforall.online.damngame.animals.ducks.Duck;
 import com.codeforall.online.damngame.animals.ducks.DuckReward;
@@ -8,27 +9,25 @@ import com.codeforall.online.damngame.controlers.KeyHandler;
 import com.codeforall.online.damngame.grid.Grid;
 import com.codeforall.online.damngame.menu.Menu;
 import com.codeforall.online.damngame.menu.mouse.MenuPointer;
-import com.codeforall.online.damngame.player.Player;
-import com.codeforall.online.damngame.menu.MainMenu;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
-import javax.sound.sampled.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class GameEngine {
     private Grid grid;
-    private com.codeforall.online.damngame.player.Player player;
+    private Player player;
     private List<Duck> ducks = new ArrayList<>();
     private List<Shark> sharks = new ArrayList<>();
     private List<DuckReward> rewards = new ArrayList<>();
     private boolean canGameStart = false;
     private boolean isGameOver = false;
     private Text scoreText;
+    private HighScore highScore;
+
 
     public GameEngine() {
         this.grid = new Grid(100, 50);
@@ -64,7 +63,9 @@ public class GameEngine {
         this.grid.init();
         this.player = new Player(this.grid);
 
-        this.scoreText = new Text(Grid.PADDING + 50, Grid.PADDING + 70 , "Score: " + player.getScore());
+        this.highScore = new HighScore();
+
+        this.scoreText = new Text(Grid.PADDING + grid.columnToX(grid.getCols()) / 2, Grid.PADDING * 2, "Score: " + player.getScore());
         this.scoreText.setColor(Color.LIGHT_GRAY);
         this.scoreText.grow(40, 20);
         scoreText.draw();
@@ -78,6 +79,10 @@ public class GameEngine {
 
             Thread.sleep(100);
 
+            if(this.player.getScore() > this.highScore.getHighScore()){
+                this.highScore.draw(this.grid);
+            }
+
             duckMovementCounter = ducksMove(duckMovementCounter);
 
             sharkMovementCounter = sharksMove(sharkMovementCounter);
@@ -85,6 +90,11 @@ public class GameEngine {
             rewardsMove();
 
             this.scoreText.setText("Score: " + this.player.getScore()); // to print the score every cicle
+        }
+
+        if(this.player.getScore() > this.highScore.getHighScore()) {
+            this.highScore.setNewHighScore(this.player.getScore());
+            this.highScore.displayHighScore();
         }
 
         gameOver();
@@ -124,6 +134,7 @@ public class GameEngine {
                 duck.remove();
                 duckIterator.remove();
             }
+
 
             if (duck.isClicked()) { // If a player clicks a duck, it's score gets updated; duck gets deleted
                 this.player.increaseScore();
