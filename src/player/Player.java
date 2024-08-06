@@ -34,9 +34,9 @@ public class Player {
     public void decrementLives() {
         if(!easyMode){
             this.lives --;
-        }
 
-        heartState.loseLife(); // Changes the heart state to the previous state, until we reach the empty heart state
+            heartState.loseLife(); // Changes the heart state to the previous state, until we reach the empty heart state
+        }
     }
 
     public void incrementLives() {
@@ -74,7 +74,7 @@ public class Player {
         this.score ++;
     }
 
-    public void setEasyMode(boolean easyMode) {
+    public void setEasyMode() {
         this.easyMode = true;
     }
 

@@ -56,7 +56,7 @@ public class KeyHandler implements KeyboardHandler {
                 player.setSpeed(30);
                 break;
             case KeyboardEvent.KEY_E:
-                player.setEasyMode(true);
+                player.setEasyMode();
                 break;
         }
     }
