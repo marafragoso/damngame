@@ -106,7 +106,7 @@ public class GameEngine {
     }
 
     public void gameOver() {
-        Picture gameOver = new Picture(grid.columnToX(grid.getCols()) / 2, grid.rowToY(grid.getRows()) / 3, "resources/gameover.png");
+        Picture gameOver = new Picture(grid.columnToX(grid.getCols()) / 2, grid.rowToY(grid.getRows()) / 3, "resources/resources/gameover.png");
         gameOver.draw();
         gameOver.translate(-100, 0);
         gameOver.grow(100, 100);

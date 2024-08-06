@@ -14,7 +14,7 @@ public abstract class HeartState {
 
     public HeartState(Player player) {
         this.player = player;
-        this.hearts = new Picture(Grid.PADDING, Grid.PADDING, Grid.RESOURCE + "resources/full-hearts.png");
+        this.hearts = new Picture(Grid.PADDING, Grid.PADDING, Grid.RESOURCE + "resources/hearts/full-hearts.png");
     }
 
     public abstract void drawHearts();

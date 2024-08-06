@@ -7,8 +7,8 @@ import com.codeforall.online.damngame.grid.Grid;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class AnimalFactory {
-    private static final String BIRD_IMAGE_ACCESS = "resources/Bird/";
-    private static final String SHARK_IMAGE_ACCESS = "resources/Shark/";
+    private static final String BIRD_IMAGE_ACCESS = "resources/resources/Bird/";
+    private static final String SHARK_IMAGE_ACCESS = "resources/resources/Shark/";
 
     public static Duck getNewDuck(Grid grid) {
         int initialY = duckInitialY(grid);
