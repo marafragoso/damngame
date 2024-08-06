@@ -12,17 +12,14 @@ public class DuckReward implements Animation {
 
     @Override
     public void moveRight() {
-
     }
 
     @Override
     public void moveLeft() {
-
     }
 
     @Override
     public void moveUp() {
-
     }
 
     @Override

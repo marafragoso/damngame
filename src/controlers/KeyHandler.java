@@ -1,6 +1,6 @@
 package com.codeforall.online.damngame.controlers;
 
-import com.codeforall.online.damngame.Player;
+import com.codeforall.online.damngame.player.Player;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
