@@ -1,4 +1,4 @@
-package com.codeforall.online.damngame;
+package com.codeforall.online.damngame.player;
 
 import com.codeforall.online.damngame.grid.Position;
 import com.codeforall.online.damngame.grid.Grid;
@@ -9,9 +9,9 @@ public class Player {
     private int speed;
     private int score;
     private int lives;
-    private Picture hearts;
     private Picture picture;
     private Grid grid;
+    private HeartState heartState;
 
     public Player(Grid grid) {
 
@@ -20,54 +20,29 @@ public class Player {
         this.speed = 10;
         this.score = 0;
         this.lives = 3;
-        this.hearts = new Picture(Grid.PADDING, Grid.PADDING, Grid.RESOURCE + "resources/full-hearts.png");
         this.picture = new Picture(position.getCol(), position.getRow(), Grid.RESOURCE + "resources/Raft_resize.png");
 
         this.picture.draw();
         picture.grow(0.25, 0.25);
 
-        this.hearts.draw();
+        this.heartState = new FullHeartState(this);
+        this.heartState.drawHearts();
     }
 
     public int getLives() {
         return this.lives;
     }
 
-    public void decrementLives(){
+    public void decrementLives() {
         this.lives --;
 
-        drawLives();
+        heartState.loseLife();
     }
 
-    public void incrementLives(){
+    public void incrementLives() {
         this.lives ++;
 
-        drawLives();
-    }
-
-    public void drawLives() {
-        switch(this.lives){
-            case 0:
-                this.hearts.delete();
-                this.hearts = new Picture(Grid.PADDING,Grid.PADDING, Grid.RESOURCE + "resources/no_lifes.png");
-                this.hearts.draw();
-                break;
-            case 1:
-                this.hearts.delete();
-                this.hearts = new Picture(Grid.PADDING,Grid.PADDING, Grid.RESOURCE + "resources/1 heart.png");
-                this.hearts.draw();
-                break;
-            case 2:
-                this.hearts.delete();
-                this.hearts = new Picture(Grid.PADDING,Grid.PADDING, Grid.RESOURCE + "resources/2hearts.png");
-                this.hearts.draw();
-                break;
-            case 3:
-                this.hearts.delete();
-                this.hearts = new Picture(Grid.PADDING, Grid.PADDING, Grid.RESOURCE + "resources/full-hearts.png");
-                this.hearts.draw();
-                break;
-        }
+        heartState.gainLife();
     }
 
     public void moveLeft() {
@@ -97,6 +72,14 @@ public class Player {
 
     public void increaseScore() {
         this.score ++;
+    }
+
+    public HeartState getHeartState() {
+        return this.heartState;
+    }
+
+    public void setHeartState(HeartState heartState) {
+        this.heartState = heartState;
     }
 }
 
