@@ -19,7 +19,7 @@ public class Duck extends Animal implements MouseHandler {
     }
 
     public boolean hasReward() {
-        return Math.random() < 0.9;
+        return Math.random() < 0.5;
     }
 
     public void setDuckReward(DuckReward duckReward){

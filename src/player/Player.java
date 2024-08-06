@@ -89,5 +89,10 @@ public class Player {
     public void setHeartState(HeartState heartState) {
         this.heartState = heartState;
     }
+
+    public void delete() {
+        this.getPicture().delete();
+        this.heartState.delete();
+    }
 }
 

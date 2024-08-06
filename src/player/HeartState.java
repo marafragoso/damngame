@@ -23,4 +23,7 @@ public abstract class HeartState {
 
     public abstract void loseLife();
 
+    public void delete() {
+        this.hearts.delete();
+    }
 }

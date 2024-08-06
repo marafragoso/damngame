@@ -8,12 +8,10 @@ import com.codeforall.online.damngame.animals.sharks.Shark;
 import com.codeforall.online.damngame.controlers.KeyHandler;
 import com.codeforall.online.damngame.grid.Grid;
 import com.codeforall.online.damngame.menu.MainMenu;
-import com.codeforall.online.damngame.Soundtrack;
 import com.codeforall.online.damngame.player.Player;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
-
 
 import javax.sound.sampled.*;
 import java.io.IOException;
@@ -24,25 +22,27 @@ import java.util.List;
 public class GameEngine {
     private Grid grid;
     private Player player;
+    private Soundtrack soundtrack;
     private List<Duck> ducks = new ArrayList<>();
     private List<Shark> sharks = new ArrayList<>();
     private List<DuckReward> rewards = new ArrayList<>();
-    private boolean canGameStart = false;
-    private boolean isGameOver = false;
     private Text scoreText;
     private HighScore highScore;
-
+    private int sharkGenerationInterval = 50;
 
     public GameEngine() {
         this.grid = new Grid(100, 50);
     }
 
+    /**
+     * Displays the main menu
+     * @throws InterruptedException
+     */
     public void init() throws InterruptedException {
         MainMenu menu = new MainMenu(this.grid);
 
         while (true) {
             if (menu.getGameStart()) {
-                this.canGameStart = true;
                 menu.delete();
                 start();
                 break;
@@ -58,12 +58,13 @@ public class GameEngine {
 
     public void start() throws InterruptedException {
         try {
-            Soundtrack soundtrack = new Soundtrack();
+            soundtrack = new Soundtrack();
             soundtrack.play();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             throw new RuntimeException(e);
         }
 
+        //Grid draws the background and
         this.grid.init();
         this.player = new Player(this.grid);
 
@@ -84,7 +85,7 @@ public class GameEngine {
             Thread.sleep(100);
 
             if(this.player.getScore() > this.highScore.getHighScore()){
-                this.highScore.draw(this.grid);
+                this.highScore.drawNewHighScore(this.grid);
             }
 
             duckMovementCounter = ducksMove(duckMovementCounter);
@@ -98,7 +99,7 @@ public class GameEngine {
 
         if(this.player.getScore() > this.highScore.getHighScore()) {
             this.highScore.setNewHighScore(this.player.getScore());
-            this.highScore.displayHighScore();
+            this.highScore.displayHighScore(this.highScore.getNewHighScoreSymbol());
         }
 
         gameOver();
@@ -110,7 +111,44 @@ public class GameEngine {
         gameOver.translate(-100, 0);
         gameOver.grow(100, 100);
 
+        if(this.highScore.getNewHighScoreSymbol() != null){
+            this.highScore.displayHighScore(this.highScore.getNewHighScoreSymbol());
+        } else {
+            this.highScore.drawHighestScore(this.grid);
+            this.highScore.displayHighScore(this.highScore.getHighestScore());
+        }
 
+        this.soundtrack.stop();
+        deleteElements();
+    }
+
+    /**
+     * Deletes all the elements in the canvas
+     */
+    public void deleteElements() {
+        if(this.player != null){
+            this.player.delete();
+            this.player = null;
+        }
+
+        for(int i = 0; i < ducks.size(); i++) {
+            ducks.get(i).remove();
+        }
+        ducks.clear();
+
+        for(int i = 0; i < sharks.size(); i++) {
+            sharks.get(i).remove();
+        }
+        sharks.clear();
+
+        for(int i = 0; i < rewards.size(); i++) {
+            rewards.get(i).remove();
+        }
+        rewards.clear();
+
+        if (this.scoreText != null) {
+            this.scoreText.delete();
+        }
     }
 
     /**
@@ -188,7 +226,13 @@ public class GameEngine {
      * @return updates de sharkMovement counter
      */
     public int sharksMove(int sharkMovementCounter) {
-        if (sharks.isEmpty() || sharkMovementCounter % 20 == 0) { //Generates a new shark if the list is empty or at every 20 global shark movements
+        // Adjust shark generation interval over time
+        if (sharkMovementCounter % 100 == 0 && sharkGenerationInterval > 5) { // Decrease the interval every 200 cycles
+            sharkGenerationInterval--;
+        }
+
+        // Generate a new shark if the list is empty or based on the current interval
+        if (sharks.isEmpty() || sharkMovementCounter % sharkGenerationInterval == 0) {
             sharks.add(AnimalFactory.getNewShark(grid));
         }
 

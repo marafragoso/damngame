@@ -30,4 +30,8 @@ public class DuckReward implements Animation {
     public Picture getRewardPic() {
         return this.reward;
     }
+
+    public void remove() {
+        this.getRewardPic().delete();
+    }
 }
