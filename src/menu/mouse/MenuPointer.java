@@ -1,7 +1,6 @@
 package com.codeforall.online.damngame.menu.mouse;
 
 import com.codeforall.online.damngame.menu.MainMenu;
-import com.codeforall.online.damngame.menu.Menu;
 import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
 import org.academiadecodigo.simplegraphics.mouse.MouseEventType;
@@ -28,7 +27,7 @@ public class MenuPointer implements MouseHandler {
                 y <= mainMenu.getStartButton().getHeight() &&
                 y >= mainMenu.getStartButton().getY()) {
 
-            this.mainMenu.setGameStart();
+            this.mainMenu.startGame();
         }
 
         if(x >= mainMenu.getSettingsButton().getX() &&
@@ -44,7 +43,7 @@ public class MenuPointer implements MouseHandler {
                 y <= mainMenu.getQuitButton().getHeight() &&
                 y >= mainMenu.getQuitButton().getY()) {
 
-            this.mainMenu.setQuitGame();
+            this.mainMenu.exitGame();
         }
     }
 

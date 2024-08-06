@@ -14,10 +14,10 @@ public class SettingsMenu extends Menu{
     public SettingsMenu(Grid grid) {
         super(grid);
 
-        backButton = new BackButton();
-        backButton.drawButton(grid, this.background);
+        backButton = new BackButton(grid, background);
+        backButton.drawButton();
 
-        settingsInfo = new Picture(Grid.PADDING * 8 + grid.columnToX(this.background.getX()), Grid.PADDING * 10, "resources/resources/menu/settingsInfo.png");
+        settingsInfo = new Picture(Grid.PADDING * 8 + grid.columnToX(this.background.getX()), Grid.PADDING * 7, "resources/resources/menu/settingsInfo.png");
         settingsInfo.draw();
 
         this.pointer = new SettingsPointer(this);

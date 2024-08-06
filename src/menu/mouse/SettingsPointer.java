@@ -25,8 +25,8 @@ public class SettingsPointer implements MouseHandler {
         double y = mouseEvent.getY();
 
         if(x >= settingsMenu.getBackButton().getX() &&
-                x <= settingsMenu.getBackButton().getWidth() &&
-                y <= settingsMenu.getBackButton().getHeight() &&
+                x <= settingsMenu.getBackButton().getWidth() + 20 &&
+                y <= settingsMenu.getBackButton().getHeight() + 20 &&
                 y >= settingsMenu.getBackButton().getY()) {
 
             this.settingsMenu.returnToMainMenu();

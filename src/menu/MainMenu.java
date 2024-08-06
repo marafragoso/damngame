@@ -12,6 +12,7 @@ public class MainMenu extends Menu{
     private StartButton startButton;
     private SettingsButton settingsButton;
     private QuitButton quitButton;
+    private MenuPointer menuPointer;
 
     private boolean gameStart = false;
     private boolean quitGame = false;
@@ -19,11 +20,11 @@ public class MainMenu extends Menu{
     public MainMenu(Grid grid) {
         super(grid);
 
-        new MenuPointer(this);
+        this.menuPointer = new MenuPointer(this);
 
-        this.startButton = new StartButton();
-        this.settingsButton = new SettingsButton();
-        this.quitButton = new QuitButton();
+        this.startButton = new StartButton(grid, background);
+        this.settingsButton = new SettingsButton(grid, background);
+        this.quitButton = new QuitButton(grid, background);
 
         drawTitle();
         drawButtons();
@@ -35,9 +36,9 @@ public class MainMenu extends Menu{
     }
 
     private void drawButtons() {
-        startButton.drawButton(grid, background);
-        settingsButton.drawButton(grid, background);
-        quitButton.drawButton(grid, background);
+        startButton.drawButton();
+        settingsButton.drawButton();
+        quitButton.drawButton();
     }
 
     public StartButton getStartButton() {
@@ -61,7 +62,7 @@ public class MainMenu extends Menu{
         return this.gameStart;
     }
 
-    public void setGameStart() {
+    public void startGame() {
         this.gameStart = true;
     }
 
@@ -69,7 +70,7 @@ public class MainMenu extends Menu{
         return this.quitGame;
     }
 
-    public void setQuitGame() {
+    public void exitGame() {
         this.quitGame = true;
     }
 
@@ -79,6 +80,7 @@ public class MainMenu extends Menu{
         this.settingsButton.delete();
         this.quitButton.delete();
 
+        this.menuPointer = null;
     }
 
 }

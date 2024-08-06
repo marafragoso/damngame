@@ -5,8 +5,11 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class BackButton extends Button {
 
-    public void drawButton(Grid grid, Picture background){
-        this.button = new Picture(Grid.PADDING, Grid.PADDING, "resources/resources/menu/back.png");
-        this.button.draw();
+    public BackButton(Grid grid, Picture background) {
+        super(grid, background);
+    }
+
+    public void drawButton() {
+        super.drawButton(Grid.PADDING, Grid.PADDING, "resources/resources/menu/back.png");
     }
 }

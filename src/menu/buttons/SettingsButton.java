@@ -5,8 +5,13 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class SettingsButton extends Button {
 
-    public void drawButton(Grid grid, Picture background){
-        this.button =  new Picture(Grid.PADDING * 10.5 + grid.columnToX(background.getX()), Grid.PADDING * 7 + grid.rowToY(background.getY()), "resources/resources/menu/settings.png");
-        this.button.draw();
+    public SettingsButton(Grid grid, Picture background) {
+        super(grid, background);
+    }
+
+    public void drawButton(){
+        super.drawButton(Grid.PADDING * 10.5 + grid.columnToX(background.getX()),
+                Grid.PADDING * 7 + grid.rowToY(background.getY()),
+                "resources/resources/menu/settings.png");
     }
 }

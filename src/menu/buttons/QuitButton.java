@@ -5,11 +5,13 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class QuitButton extends Button{
 
-    public void drawButton(Grid grid, Picture background){
-        this.button =  new Picture(Grid.PADDING * 10 + grid.columnToX(background.getX()),
+    public QuitButton(Grid grid, Picture background) {
+        super(grid, background);
+    }
+
+    public void drawButton() {
+        super.drawButton(Grid.PADDING * 10 + grid.columnToX(background.getX()),
                 Grid.PADDING * 13 + grid.rowToY(background.getY()),
                 "resources/resources/menu/quit.png");
-
-        this.button.draw();
     }
 }
