@@ -79,7 +79,7 @@ public class MainMenu extends Menu{
         this.startButton.delete();
         this.settingsButton.delete();
         this.quitButton.delete();
-
+        this.title.delete();
         this.menuPointer = null;
     }
 

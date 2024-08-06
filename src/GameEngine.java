@@ -7,12 +7,16 @@ import com.codeforall.online.damngame.animals.ducks.DuckReward;
 import com.codeforall.online.damngame.animals.sharks.Shark;
 import com.codeforall.online.damngame.controlers.KeyHandler;
 import com.codeforall.online.damngame.grid.Grid;
-import com.codeforall.online.damngame.menu.Menu;
-import com.codeforall.online.damngame.menu.mouse.MenuPointer;
+import com.codeforall.online.damngame.menu.MainMenu;
+import com.codeforall.online.damngame.Soundtrack;
+import com.codeforall.online.damngame.player.Player;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
+
+import javax.sound.sampled.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -65,7 +69,7 @@ public class GameEngine {
 
         this.highScore = new HighScore();
 
-        this.scoreText = new Text(Grid.PADDING + grid.columnToX(grid.getCols()) / 2, Grid.PADDING * 2, "Score: " + player.getScore());
+        this.scoreText = new Text(Grid.PADDING + 50, Grid.PADDING + 70 , "Score: " + player.getScore());
         this.scoreText.setColor(Color.LIGHT_GRAY);
         this.scoreText.grow(40, 20);
         scoreText.draw();
@@ -105,6 +109,8 @@ public class GameEngine {
         gameOver.draw();
         gameOver.translate(-100, 0);
         gameOver.grow(100, 100);
+
+
     }
 
     /**
