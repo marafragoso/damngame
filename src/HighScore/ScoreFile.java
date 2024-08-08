@@ -2,6 +2,9 @@ package com.codeforall.online.damngame.HighScore;
 
 import java.io.*;
 
+/**
+ * Responsible for writting and reading from a file
+ */
 public class ScoreFile {
     private final String fileName;
 
@@ -34,4 +37,6 @@ public class ScoreFile {
         return 0;
     }
 }
+
+//Could this be a nested class in our HighScore class, since we only use it there? What would be the advantage in it?
 

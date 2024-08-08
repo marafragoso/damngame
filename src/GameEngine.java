@@ -42,13 +42,13 @@ public class GameEngine {
         MainMenu menu = new MainMenu(this.grid);
 
         while (true) {
-            if (menu.getGameStart()) {
+            if (menu.getGameStart()) { //If player presses "Start"
                 menu.delete();
                 start();
                 break;
             }
 
-            if (menu.getQuitGame()) {
+            if (menu.getQuitGame()) { //If player presses "Quit"
                 System.exit(0);
             }
 
@@ -56,6 +56,11 @@ public class GameEngine {
         }
     }
 
+    /**
+     * Initializes the game after Start is pressed
+     *
+     * @throws InterruptedException
+     */
     public void start() throws InterruptedException {
         try {
             soundtrack = new Soundtrack();
@@ -64,53 +69,70 @@ public class GameEngine {
             throw new RuntimeException(e);
         }
 
-        //Grid draws the background and
+        //Grid draws the background
         this.grid.init();
+
+        //Player gets created
         this.player = new Player(this.grid);
 
         this.highScore = new HighScore();
 
+        //Displays "Score: " on the screen
         this.scoreText = new Text(Grid.PADDING + 50, Grid.PADDING + 70 , "Score: " + player.getScore());
         this.scoreText.setColor(Color.LIGHT_GRAY);
         this.scoreText.grow(40, 20);
         scoreText.draw();
 
+        //Creates a key handler for player movement
         new KeyHandler(this.player);
 
+        //Variables that keep track of the count of the ducks and sharks
+        //It will be important for their spawning rate
         int duckMovementCounter = 0;
         int sharkMovementCounter = 0;
 
+        //Game keeps running for as long as player still has lives
         while (this.player.getLives() > 0) {
 
             Thread.sleep(100);
 
+            //New high score symbol gets displayed upon reaching the last known high score
             if(this.player.getScore() > this.highScore.getHighScore()){
                 this.highScore.drawNewHighScore(this.grid);
             }
 
+            //Ducks move and update movementCounter
             duckMovementCounter = ducksMove(duckMovementCounter);
 
+            //Sahrks move and update movementCounter
             sharkMovementCounter = sharksMove(sharkMovementCounter);
 
+            //If there are rewards dropped by the ducks, they fall from the sky
             rewardsMove();
 
+            //Updates the score value
             this.scoreText.setText("Score: " + this.player.getScore()); // to print the score every cicle
         }
 
+        //When game is over and player reached a new high score
         if(this.player.getScore() > this.highScore.getHighScore()) {
-            this.highScore.setNewHighScore(this.player.getScore());
-            this.highScore.displayHighScore(this.highScore.getNewHighScoreSymbol());
+            this.highScore.setNewHighScore(this.player.getScore()); // Saves the new high score
+            this.highScore.displayHighScore(this.highScore.getNewHighScoreSymbol()); //Displays the new high score symbol and the current high score
         }
 
         gameOver();
     }
 
+    /**
+     * Displays the game over image and the new high score OR highest score in record
+     */
     public void gameOver() {
         Picture gameOver = new Picture(grid.columnToX(grid.getCols()) / 2, grid.rowToY(grid.getRows()) / 3, "resources/resources/gameover.png");
         gameOver.draw();
         gameOver.translate(-100, 0);
         gameOver.grow(100, 100);
 
+        // If the player does not reach a new highScore, the highest Score registered is printed
         if(this.highScore.getNewHighScoreSymbol() != null){
             this.highScore.displayHighScore(this.highScore.getNewHighScoreSymbol());
         } else {
@@ -118,7 +140,9 @@ public class GameEngine {
             this.highScore.displayHighScore(this.highScore.getHighestScore());
         }
 
+        //Stops the music
         this.soundtrack.stop();
+
         deleteElements();
     }
 

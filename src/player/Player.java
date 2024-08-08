@@ -4,6 +4,9 @@ import com.codeforall.online.damngame.grid.Position;
 import com.codeforall.online.damngame.grid.Grid;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
+/**
+ * Creates the player and all the movements associated with it
+ */
 public class Player {
     private Position position;
     private int speed = 10;
@@ -23,7 +26,8 @@ public class Player {
         this.picture.draw();
         picture.grow(0.25, 0.25);
 
-        this.heartState = new FullHeartState(this); //Initializing heart state to the state of full hearts
+        //Initializing heart state to the state of full hearts
+        this.heartState = new FullHeartState(this);
         this.heartState.drawHearts();
     }
 
@@ -74,6 +78,7 @@ public class Player {
         this.score ++;
     }
 
+    // Easy mode turned on after "E" pressed
     public void setEasyMode() {
         this.easyMode = true;
     }

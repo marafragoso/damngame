@@ -27,7 +27,7 @@ public class HighScore {
         newHighScoreSymbol.draw();
     }
 
-    // Displays the highest score recorded on gameOver
+    // Displays the highest score recorded upon game is over
     public void drawHighestScore(Grid grid) {
         if(newHighScoreSymbol != null) {
             newHighScoreSymbol.delete();

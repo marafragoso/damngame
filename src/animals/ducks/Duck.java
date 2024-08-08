@@ -18,6 +18,7 @@ public class Duck extends Animal implements MouseHandler {
         mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
     }
 
+    //Only a few ducks will give a reward to the player
     public boolean hasReward() {
         return Math.random() < 0.5;
     }
@@ -40,6 +41,7 @@ public class Duck extends Animal implements MouseHandler {
                 y <= this.getLowerBorder() + 50 &&
                 y >= this.getUpperBorder()) {
 
+            //If duck is clicked, the reward (if it has it) gets created
             if (this.hasReward()) {
                 DuckReward reward = new DuckReward(this.getPicture().getX(), this.getPicture().getY());
                 this.setDuckReward(reward);
@@ -54,6 +56,11 @@ public class Duck extends Animal implements MouseHandler {
     public void mouseMoved(MouseEvent mouseEvent) {
     }
 
+    /**
+     * Method to help with the duck remove method in the GameEngine class
+     *
+     * @return  true if the duck was clicked; this makes it so the duck can be removed from the canvas, otherwise it won't
+     */
     public boolean isClicked() {
         return this.clicked;
     }

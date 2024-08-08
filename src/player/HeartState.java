@@ -19,8 +19,14 @@ public abstract class HeartState {
 
     public abstract void drawHearts();
 
+    /**
+     * Transition from a lower hearState level to a higher, to a maximum of "full heart state"
+     */
     public abstract void gainLife();
 
+    /**
+     * Transition from a higher heartState level to a lower, to a minimum of "no heart state"
+     */
     public abstract void loseLife();
 
     public void delete() {

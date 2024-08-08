@@ -24,7 +24,7 @@ public class Grid {
     }
 
     /**
-     * Initializes the field simple graphics rectangle and draws it
+     * Initializes the field simple graphics draws the background
      */
     public void init() {
         this.background = new Picture(PADDING, PADDING, "Background.png");

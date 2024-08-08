@@ -3,6 +3,9 @@ package com.codeforall.online.damngame.menu.buttons;
 import com.codeforall.online.damngame.grid.Grid;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
+/**
+ * Abstract class that implements all the logic from all the buttons on the menu screen
+ */
 public abstract class Button {
     protected Picture button;
     protected Grid grid;

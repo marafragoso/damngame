@@ -6,7 +6,9 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 
-/* KeyHandler.java */
+/**
+ * Recognizes the keyboard input and associates logic with it
+ */
 public class KeyHandler implements KeyboardHandler {
 
     private Player player;
@@ -52,10 +54,10 @@ public class KeyHandler implements KeyboardHandler {
             case KeyboardEvent.KEY_D:
                 player.moveRight();
                 break;
-            case KeyboardEvent.KEY_S:
+            case KeyboardEvent.KEY_S: //Cheat code: if S is pressed, the player moves quicker
                 player.setSpeed(30);
                 break;
-            case KeyboardEvent.KEY_E:
+            case KeyboardEvent.KEY_E: //Easy mode: if E is pressed, player gets imune
                 player.setEasyMode();
                 break;
         }

@@ -6,6 +6,12 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 public class DuckReward implements Animation {
     private Picture reward;
 
+    /**
+     * Generates a duck reward
+     *
+     * @param x The X position of the duck that dropped the reward
+     * @param y The X position of the duck that dropped the reward
+     */
     public DuckReward(int x, int y) {
         this.reward = new Picture(x,y,"resources/resources/Bird/reward.png");
     }

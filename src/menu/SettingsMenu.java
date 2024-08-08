@@ -5,6 +5,10 @@ import com.codeforall.online.damngame.menu.buttons.BackButton;
 import com.codeforall.online.damngame.menu.mouse.SettingsPointer;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
+/**
+ * Displays the settings menu after "Settings" button gets clicked
+ * Has its own mouse movement
+ */
 public class SettingsMenu extends Menu{
 
     private BackButton backButton;
@@ -14,6 +18,7 @@ public class SettingsMenu extends Menu{
     public SettingsMenu(Grid grid) {
         super(grid);
 
+        //Draws a back button so the player can return to the main Menu
         backButton = new BackButton(grid, background);
         backButton.drawButton();
 
@@ -27,6 +32,9 @@ public class SettingsMenu extends Menu{
         return this.backButton;
     }
 
+    /**
+     * Deletes the elements from this menu
+     */
     public void delete() {
         this.backButton.delete();
         this.settingsInfo.delete();

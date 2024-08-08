@@ -7,6 +7,10 @@ import com.codeforall.online.damngame.menu.buttons.StartButton;
 import com.codeforall.online.damngame.menu.mouse.MenuPointer;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
+/**
+ * Displays the main menu
+ * Has its own mouse movement
+ */
 public class MainMenu extends Menu{
     private Picture title;
     private StartButton startButton;
@@ -53,8 +57,11 @@ public class MainMenu extends Menu{
         return this.quitButton;
     }
 
+    /**
+     * Creates the settings menu upon clicking "Settings" button
+     */
     public void displaySettings() {
-        delete();
+        deleteMainMenu();
         new SettingsMenu(this.grid);
     }
 
@@ -74,8 +81,8 @@ public class MainMenu extends Menu{
         this.quitGame = true;
     }
 
-
-    public void delete() {
+    // Only deletes the elements from the main menu, not the protected properties from the super class
+    public void deleteMainMenu() {
         this.startButton.delete();
         this.settingsButton.delete();
         this.quitButton.delete();
@@ -83,4 +90,9 @@ public class MainMenu extends Menu{
         this.menuPointer = null;
     }
 
+    //Deletes the main menu plus the super class
+    public void delete() {
+        deleteMainMenu();
+        super.delete();
+    }
 }

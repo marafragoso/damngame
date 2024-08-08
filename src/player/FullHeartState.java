@@ -3,6 +3,9 @@ package com.codeforall.online.damngame.player;
 import com.codeforall.online.damngame.grid.Grid;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
+/**
+ * Full heart state; player gets created with this state after game begin
+ */
 public class FullHeartState extends HeartState {
 
     public FullHeartState(Player player) {
