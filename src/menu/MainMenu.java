@@ -93,6 +93,7 @@ public class MainMenu extends Menu{
     //Deletes the main menu plus the super class
     public void delete() {
         deleteMainMenu();
+
         super.delete();
     }
 }

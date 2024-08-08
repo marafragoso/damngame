@@ -12,7 +12,7 @@ public class TwoHeartState extends HeartState {
     @Override
     public void drawHearts() {
         this.hearts.delete();
-        this.hearts = new Picture(Grid.PADDING, Grid.PADDING, Grid.RESOURCE + "resources/hearts/2hearts.png");
+        this.hearts = new Picture(Grid.PADDING, Grid.PADDING, Grid.RESOURCE + "resources/hearts/2-hearts.png");
         this.hearts.draw();
     }
 

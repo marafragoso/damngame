@@ -12,7 +12,6 @@ import com.codeforall.online.damngame.menu.MainMenu;
 import com.codeforall.online.damngame.player.Player;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Text;
-import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
@@ -129,7 +128,8 @@ public class GameEngine {
     /**
      * Displays the game over image and the new high score OR highest score in record
      */
-    public void gameOver() {
+    public void gameOver() throws InterruptedException {
+
         // If the player does not reach a new highScore, the highest Score registered is printed
         if(this.highScore.getNewHighScoreSymbol() != null){
             this.highScore.displayHighScore(this.highScore.getNewHighScoreSymbol());
@@ -143,29 +143,29 @@ public class GameEngine {
 
         deleteElements();
 
-        gameover = new GameOver(this.grid, this);
+        this.gameOver = new GameOver(this.grid, this);
     }
 
     /**
      * Deletes all the elements in the canvas
      */
     public void deleteElements() {
-        if(this.player != null){
+        if (this.player != null) {
             this.player.delete();
             this.player = null;
         }
 
-        for(int i = 0; i < ducks.size(); i++) {
+        for (int i = 0; i < ducks.size(); i++) {
             ducks.get(i).remove();
         }
         ducks.clear();
 
-        for(int i = 0; i < sharks.size(); i++) {
+        for (int i = 0; i < sharks.size(); i++) {
             sharks.get(i).remove();
         }
         sharks.clear();
 
-        for(int i = 0; i < rewards.size(); i++) {
+        for (int i = 0; i < rewards.size(); i++) {
             rewards.get(i).remove();
         }
         rewards.clear();
@@ -175,10 +175,13 @@ public class GameEngine {
         }
     }
 
+    /**
+     * Deletes the grid and background
+     * Calls the init() method again, which is responsible for creating a new grid and a new Menu from which we start the game
+     */
     public void restartGame() {
         this.grid.delete();
-
-        System.out.println("Game is restarting");
+        this.highScore.delete();
 
         try {
             init();

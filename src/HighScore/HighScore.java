@@ -14,6 +14,7 @@ public class HighScore {
     private ScoreFile scoreFile;
     private Picture newHighScoreSymbol;
     private Picture highestScore;
+    private Text highScoreText;
     private int highScore;
 
     public HighScore() {
@@ -57,9 +58,21 @@ public class HighScore {
 
     // Displays the highest score
     public void displayHighScore(Picture picture) {
-        Text highScoreText = new Text(picture.getX() + 60,picture.getMaxY() + 20, String.valueOf(this.highScore));
+        highScoreText = new Text(picture.getX() + 60,picture.getMaxY() + 20, String.valueOf(this.highScore));
         highScoreText.setColor(Color.WHITE);
         highScoreText.grow(20,30);
         highScoreText.draw();
+    }
+
+    public void delete() {
+        if(this.newHighScoreSymbol != null) {
+            this.newHighScoreSymbol.delete();
+        }
+        if(this.highestScore != null) {
+            this.highestScore.delete();
+        }
+
+        this.highScoreText.delete();
+        this.highScore = 0;
     }
 }
