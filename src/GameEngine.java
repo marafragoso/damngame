@@ -6,6 +6,7 @@ import com.codeforall.online.damngame.animals.ducks.Duck;
 import com.codeforall.online.damngame.animals.ducks.DuckReward;
 import com.codeforall.online.damngame.animals.sharks.Shark;
 import com.codeforall.online.damngame.controlers.KeyHandler;
+import com.codeforall.online.damngame.gameOver.GameOver;
 import com.codeforall.online.damngame.grid.Grid;
 import com.codeforall.online.damngame.menu.MainMenu;
 import com.codeforall.online.damngame.player.Player;
@@ -29,9 +30,9 @@ public class GameEngine {
     private Text scoreText;
     private HighScore highScore;
     private int sharkGenerationInterval = 50;
+    private GameOver gameOver;
 
     public GameEngine() {
-        this.grid = new Grid(100, 50);
     }
 
     /**
@@ -39,6 +40,8 @@ public class GameEngine {
      * @throws InterruptedException
      */
     public void init() throws InterruptedException {
+        this.grid = new Grid(100, 50);
+
         MainMenu menu = new MainMenu(this.grid);
 
         while (true) {
@@ -127,11 +130,6 @@ public class GameEngine {
      * Displays the game over image and the new high score OR highest score in record
      */
     public void gameOver() {
-        Picture gameOver = new Picture(grid.columnToX(grid.getCols()) / 2, grid.rowToY(grid.getRows()) / 3, "resources/resources/gameover.png");
-        gameOver.draw();
-        gameOver.translate(-100, 0);
-        gameOver.grow(100, 100);
-
         // If the player does not reach a new highScore, the highest Score registered is printed
         if(this.highScore.getNewHighScoreSymbol() != null){
             this.highScore.displayHighScore(this.highScore.getNewHighScoreSymbol());
@@ -144,6 +142,8 @@ public class GameEngine {
         this.soundtrack.stop();
 
         deleteElements();
+
+        gameover = new GameOver(this.grid, this);
     }
 
     /**
@@ -175,6 +175,18 @@ public class GameEngine {
         }
     }
 
+    public void restartGame() {
+        this.grid.delete();
+
+        System.out.println("Game is restarting");
+
+        try {
+            init();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * Iterates through the list of available ducks and moves them
      *
@@ -202,7 +214,6 @@ public class GameEngine {
                 duck.remove();
                 duckIterator.remove();
             }
-
 
             if (duck.isClicked()) { // If a player clicks a duck, it's score gets updated; duck gets deleted
                 this.player.increaseScore();

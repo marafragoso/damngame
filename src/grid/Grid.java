@@ -60,4 +60,10 @@ public class Grid {
         return PADDING + cellSize * column;
     }
 
+    public void delete() {
+        this.background.delete();
+        this.cols = 0;
+        this.rows = 0;
+    }
+
 }
