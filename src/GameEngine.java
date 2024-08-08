@@ -31,9 +31,6 @@ public class GameEngine {
     private int sharkGenerationInterval = 50;
     private GameOver gameOver;
 
-    public GameEngine() {
-    }
-
     /**
      * Displays the main menu
      * @throws InterruptedException
