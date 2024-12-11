@@ -3,7 +3,7 @@ Alone and adrift...
 
 After only a couple of weeks learning Java we were challenged to create a game implementing the SimpleGraphics library.
 
-You find youself adrift at see, fighting for survival. 
+You find youself adrift in the open ocean, fighting for survival!
 Try to catch as many seagulls as you can, while avoiding the sharks!
 
 ## Languages and technologies
